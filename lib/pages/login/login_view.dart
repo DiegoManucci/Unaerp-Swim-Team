@@ -8,6 +8,14 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  bool _showPassword = false;
+
+  void onToggleShowPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -64,11 +72,20 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(
                       height: 30,
                     ),
-                    const TextField(
-                      obscureText: true,
+                    TextField(
+                      obscureText: _showPassword,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
+                        border: const OutlineInputBorder(),
+                        labelText: 'Senha',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                          onPressed: onToggleShowPassword,
+                        ),
                       ),
                     ),
                     Row(
