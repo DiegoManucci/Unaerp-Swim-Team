@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 
+import 'login_controller.dart';
+
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  final LoginController controller = LoginController();
+
+  LoginView({super.key});
 
   @override
   _LoginViewState createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool _showPassword = false;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  void onToggleShowPassword() {
-    setState(() {
-      _showPassword = !_showPassword;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.controller.state.email;
+    _passwordController.text = widget.controller.state.password;
   }
 
   @override
@@ -63,29 +69,46 @@ class _LoginViewState extends State<LoginView> {
                 child: Padding(
                   padding: const EdgeInsets.all(30),
                   child: Column(children: [
-                    const TextField(
+                    TextField(
+                      controller: _emailController,
+                      onChanged: (value) {
+                        widget.controller.setEmail(value);
+                      },
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
                         labelText: 'Email',
+                        errorText: widget.controller.isEmailValid()
+                            ? null
+                            : 'Email inválido',
                       ),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     TextField(
-                      obscureText: _showPassword,
+                      controller: _passwordController,
+                      onChanged: (value) {
+                        widget.controller.setPassword(value);
+                      },
+                      obscureText: widget.controller.state.showPassword,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         labelText: 'Senha',
                         suffixIcon: IconButton(
-                          icon: Icon(
-                            _showPassword
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Theme.of(context).primaryColorDark,
-                          ),
-                          onPressed: onToggleShowPassword,
-                        ),
+                            icon: Icon(
+                              !widget.controller.state.showPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                widget.controller.toggleShowPassword();
+                              });
+                            }),
+                        errorText: widget.controller.isPasswordValid()
+                            ? null
+                            : 'Senha deve ter no mínimo 8 caracteres',
                       ),
                     ),
                     Row(
@@ -98,7 +121,8 @@ class _LoginViewState extends State<LoginView> {
                                 padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
                                 child: Text('Esqueci a senha'),
                               ),
-                              onTap: () => {debugPrint('tapped')}),
+                              onTap: () =>
+                                  {widget.controller.onForgotPassword()}),
                         ),
                       ],
                     ),
@@ -109,7 +133,9 @@ class _LoginViewState extends State<LoginView> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(50),
                       ),
-                      onPressed: () => {debugPrint('tapped')},
+                      onPressed: () {
+                        widget.controller.onLogin();
+                      },
                       child: const Text('Entrar'),
                     ),
                   ]),

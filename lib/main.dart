@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: lightColorScheme,
         useMaterial3: true,
       ),
-      home: const LoginView()
+      home: LoginView()
     );
   }
 }
