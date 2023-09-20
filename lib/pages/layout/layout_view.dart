@@ -37,16 +37,12 @@ class _LayoutViewState extends State<LayoutView> {
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: 'Calls',
+            icon: Icon(Icons.people_alt_outlined),
+            label: 'Usuários',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
-            label: 'Camera',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
+            icon: Icon(Icons.person_outlined),
+            label: 'Perfil',
           ),
         ],
       ),
