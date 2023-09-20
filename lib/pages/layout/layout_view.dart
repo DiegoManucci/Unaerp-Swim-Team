@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unaerp_swim_team/layout/layout_controller.dart';
+
+import 'layout_controller.dart';
 
 class LayoutView extends StatefulWidget {
   final LayoutController controller = LayoutController();

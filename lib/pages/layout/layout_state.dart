@@ -8,6 +8,5 @@ class LayoutState {
   List<Widget> pages = <Widget>[
     UsersView(),
     LoginView(),
-    UsersView(),
   ];
 }

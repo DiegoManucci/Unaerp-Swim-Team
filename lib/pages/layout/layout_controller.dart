@@ -1,5 +1,4 @@
-
-import 'package:unaerp_swim_team/layout/layout_state.dart';
+import 'layout_state.dart';
 
 class LayoutController {
   final LayoutState state = LayoutState();
