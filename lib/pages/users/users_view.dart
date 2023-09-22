@@ -49,7 +49,9 @@ class LoginViewState extends State<UsersView> {
                           Text(userType),
                           IconButton(
                             icon: const Icon(Icons.edit),
-                            onPressed: () {widget.controller.onEditUser(user);},
+                            onPressed: () {
+                              widget.controller.onEditUser(user);
+                            },
                           ),
                         ],
                       ),
