@@ -21,4 +21,14 @@ class Utils {
       },
     );
   }
+
+  static void showCustomSnackBar(BuildContext context, String message, {Duration? duration, SnackBarAction? action}) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: duration ?? const Duration(seconds: 3),
+      action: action
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
