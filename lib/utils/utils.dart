@@ -9,9 +9,9 @@ class Utils {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       actionsPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-      title: Text(title), // Use the title parameter
-      content: Text(content), // Use the content parameter
-      actions: actions, // Use the actions parameter
+      title: Text(title),
+      content: Text(content),
+      actions: actions
     );
 
     showDialog(
