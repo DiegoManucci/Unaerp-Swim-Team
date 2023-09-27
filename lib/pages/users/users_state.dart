@@ -1,4 +1,5 @@
 import 'package:unaerp_swim_team/types/user.dart';
+import 'package:unaerp_swim_team/types/user_type.dart';
 
 class UsersState {
   List<User> users = [
@@ -15,5 +16,4 @@ class UsersState {
     User('Atleta 4', 'atleta2@example.com', 'atleta'),
     User('Treinador 4', 'treinador2@example.com', 'treinador'),
   ];
-
 }
