@@ -11,7 +11,7 @@ class UsersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UsersController(),
+      create: (context) => controller,
       child: Consumer<UsersController>(
         builder: (context, controller, child) => UsersList(controller: controller))
     );

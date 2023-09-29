@@ -6,12 +6,14 @@ import 'package:unaerp_swim_team/pages/login/widgets/login_logo.dart';
 import 'login_controller.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  final LoginController controller = LoginController();
+
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => LoginController(),
+      create: (context) => controller,
       child: Consumer<LoginController>(builder: (context, controller, child) {
         return Material(
           child: Column(
