@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:unaerp_swim_team/pages/layout/layout_view.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
+
+import '../home/home_view.dart';
 
 class LoginController extends ChangeNotifier {
   final LoginState state = LoginState();
@@ -22,7 +23,7 @@ class LoginController extends ChangeNotifier {
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => LayoutView()),
+      MaterialPageRoute(builder: (context) => HomeView()),
           (Route<dynamic> route) => false,
     );
   }

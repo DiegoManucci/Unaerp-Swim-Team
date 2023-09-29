@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'layout_controller.dart';
+import 'home_controller.dart';
 
-class LayoutView extends StatefulWidget {
-  final LayoutController controller = LayoutController();
+class HomeView extends StatefulWidget {
+  final HomeController controller = HomeController();
 
-  LayoutView({super.key});
+  HomeView({super.key});
 
   @override
-  _LayoutViewState createState() => _LayoutViewState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _LayoutViewState extends State<LayoutView> {
+class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
