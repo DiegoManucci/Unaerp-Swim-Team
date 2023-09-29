@@ -40,4 +40,14 @@ class Utils {
       },
     );
   }
+
+  static bool doesEmailMatchRegex(String value) {
+    String emailPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+    RegExp regex = RegExp(emailPattern);
+    return regex.hasMatch(value);
+  }
+
+  static bool doesPasswordHaveAtLeastEightCharacters(value) {
+    return value.length >= 8;
+  }
 }

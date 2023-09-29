@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unaerp_swim_team/pages/login/login_view.dart';
+import 'package:unaerp_swim_team/pages/profile/profile_view.dart';
 import 'package:unaerp_swim_team/pages/users/users_view.dart';
 
 import '../../types/app_page.dart';
@@ -9,7 +9,7 @@ class HomeState {
 
   final List<AppPage> _appPages = [
     AppPage(title: 'Usuários', widget: UsersView()),
-    AppPage(title: 'Perfil', widget: LoginView()),
+    AppPage(title: 'Perfil', widget: ProfileView()),
   ];
 
   int get selectedIndex => _selectedIndex;

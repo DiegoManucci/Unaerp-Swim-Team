@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
+import 'package:unaerp_swim_team/utils/utils.dart';
 
 import '../home/home_view.dart';
 
@@ -31,28 +32,18 @@ class LoginController extends ChangeNotifier {
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Campo obrigatório';
-    } else if (!_doesEmailMatchRegex(value)) {
+    } else if (!Utils.doesEmailMatchRegex(value)) {
       return 'E-mail inválido';
     }
     return null;
   }
 
-  bool _doesEmailMatchRegex(String value) {
-    String emailPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
-    RegExp regex = RegExp(emailPattern);
-    return regex.hasMatch(value);
-  }
-
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Campo obrigatório';
-    } else if (!_doesPasswordHaveAtLeastEightCharacters(value)) {
+    } else if (!Utils.doesPasswordHaveAtLeastEightCharacters(value)) {
       return 'Senha deve ter pelo menos 8 caracteres';
     }
     return null;
-  }
-
-  bool _doesPasswordHaveAtLeastEightCharacters(value) {
-    return value.length >= 8;
   }
 }
