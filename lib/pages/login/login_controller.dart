@@ -3,35 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:unaerp_swim_team/pages/layout/layout_view.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
 
-class LoginController {
+class LoginController extends ChangeNotifier {
   final LoginState state = LoginState();
-
-  void setEmail(String email) {
-    state.email = email;
-  }
-
-  void setPassword(String password) {
-    state.password = password;
-  }
 
   void toggleShowPassword() {
     state.showPassword = !state.showPassword;
+    notifyListeners();
   }
 
-  //TODO: Implementar esqueci minha senha
   void onForgotPassword() {
     debugPrint('Forgot Password');
   }
 
-  void onLogin(context, formKey) {
-    if (!formKey.currentState.validate()) {
+  void onLogin(context) {
+    if (!state.loginFormKey.currentState!.validate()) {
       return;
     }
 
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LayoutView()),
-      (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
     );
   }
 
