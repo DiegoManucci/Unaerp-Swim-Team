@@ -31,4 +31,13 @@ class Utils {
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  static void showCustomBottomSheet(BuildContext context, Widget child) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return child;
+      },
+    );
+  }
 }
