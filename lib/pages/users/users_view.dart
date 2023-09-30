@@ -13,7 +13,25 @@ class UsersView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => controller,
       child: Consumer<UsersController>(
-        builder: (context, controller, child) => UsersList(controller: controller))
+        builder: (context, controller, child) => Stack(
+          children: [
+            UsersList(controller: controller),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: FloatingActionButton(
+                  onPressed: () => controller.onAddUser(context),
+                  backgroundColor:
+                      Theme.of(context).colorScheme.secondaryContainer,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

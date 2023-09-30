@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/pages/create_user/create_user_view.dart';
 import 'package:unaerp_swim_team/pages/users/users_state.dart';
 import 'package:unaerp_swim_team/pages/users/widgets/users_list_item_actions.dart';
 import 'package:unaerp_swim_team/types/user.dart';
@@ -34,5 +35,9 @@ class UsersController extends ChangeNotifier {
 
   void onOpenActions(BuildContext context, User user, UsersController controller) {
     Utils.showCustomBottomSheet(context, UsersListItemActions(user: user, controller: controller));
+  }
+
+  void onAddUser(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView()));
   }
 }
