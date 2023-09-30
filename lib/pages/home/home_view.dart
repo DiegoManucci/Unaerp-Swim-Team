@@ -15,12 +15,6 @@ class HomeView extends StatelessWidget {
       child: Consumer<HomeController>(
         builder: (context, controller, child) {
           return Scaffold(
-              body: Stack(children: [
-                IndexedStack(
-                  index: controller.state.selectedIndex,
-                  children: controller.state.pages,
-                ),
-              ]),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
                 titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white),
@@ -30,6 +24,12 @@ class HomeView extends StatelessWidget {
                 ),
                 centerTitle: true,
               ),
+              body: Stack(children: [
+                IndexedStack(
+                  index: controller.state.selectedIndex,
+                  children: controller.state.pages,
+                ),
+              ]),
               bottomNavigationBar: BottomNavigationBar(
                 unselectedIconTheme: const IconThemeData(color: Colors.white),
                 unselectedItemColor: Colors.white,
