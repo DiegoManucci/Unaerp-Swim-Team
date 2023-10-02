@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unaerp_swim_team/pages/profile/profile_controller.dart';
+import 'package:unaerp_swim_team/pages/profile/widgets/profile_type_input.dart';
 
 class ProfileView extends StatelessWidget {
   final ProfileController controller = ProfileController();
@@ -11,70 +12,86 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => controller,
-        child: Consumer<ProfileController>(builder: (context, controller, child) {
-          return Form(
-              key: controller.state.profileFormKey,
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: Column(children: [
-                  ToggleButtons(
-                    direction: Axis.horizontal,
-                    onPressed: (int index) {
-                      controller.toggleProfileType(index);
-                    },
-                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    selectedBorderColor: Colors.black,
-                    selectedColor: Colors.white,
-                    fillColor: Theme.of(context).colorScheme.primary,
-                    color: Colors.black,
-                    constraints: const BoxConstraints(
-                      minHeight: 20.0,
-                      minWidth: 100.0,
-                    ),
-                    isSelected: controller.state.profileTypesController,
-                    children: controller.returnProfileTypes(),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: controller.state.nameController,
-                    validator: controller.nameValidator,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Nome'),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: controller.state.emailController,
-                    validator: controller.emailValidator,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Email'),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: controller.state.passwordController,
-                    validator: controller.passwordValidator,
-                    obscureText: controller.state.showPassword,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Senha',
-                      suffixIcon: IconButton(
-                          icon: Icon(
-                            !controller.state.showPassword
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Theme.of(context).primaryColorDark,
+        child:
+            Consumer<ProfileController>(builder: (context, controller, child) {
+          return SingleChildScrollView(
+              child: Form(
+                  key: controller.state.profileFormKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(children: [
+                      const SizedBox(height: 30),
+                      ProfileTypeInput(controller: controller),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: controller.state.nameController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(), labelText: 'Nome'),
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: controller.state.emailController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(), labelText: 'Email'),
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: controller.state.birthdayDateController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Data de Nascimento',
+                            hintText: 'dd/MM/yyyy'),
+                      ),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                              controller: controller.state.rgController,
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'RG',
+                                  hintText: '99.999.999-9'),
+                            ),
                           ),
-                          onPressed: controller.toggleShowPassword),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: controller.onSave,
-                    child: const Text('Salvar'),
-                  ),
-                ]),
-              ));
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: TextFormField(
+                              controller: controller.state.cpfController,
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'CPF',
+                                  hintText: '999.999.999-99'),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: controller.state.sexController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Sexo',
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      TextFormField(
+                        controller: controller.state.phoneController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Telefone',
+                            hintText: '+99 (99) 99999-9999'),
+                      ),
+                    ]),
+                  )));
         }));
   }
 }

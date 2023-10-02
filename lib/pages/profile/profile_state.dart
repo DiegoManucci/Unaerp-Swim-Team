@@ -4,37 +4,35 @@ import 'package:unaerp_swim_team/types/user_type.dart';
 class ProfileState {
   final GlobalKey<FormState> _profileFormKey = GlobalKey<FormState>();
 
-  final List<bool> _profileTypesController = <bool>[true, false, false];
-
+  final TextEditingController _profileType = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _birthdayDateController = TextEditingController();
+  final TextEditingController _rgController = TextEditingController();
+  final TextEditingController _cpfController = TextEditingController();
+  final TextEditingController _sexController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
-  String _profileType = UserType.administrador.name;
-
-  bool _showPassword = true;
 
   ProfileState() {
-    _nameController.text = 'teste';
-    _emailController.text = 'teste@teste.com';
-    _passwordController.text = '12345678';
+    _profileType.text = UserType.administrador.name;
+    _nameController.text = 'Diego Brino';
+    _emailController.text = 'diego@brino.com';
+    _birthdayDateController.text = '99/99/9999';
+    _rgController.text = '43.538.449-1';
+    _cpfController.text = '334.217.530-32';
+    _sexController.text = 'Masculino';
+    _phoneController.text = '+55 (99) 99999-9999';
   }
 
   GlobalKey<FormState> get profileFormKey => _profileFormKey;
 
-  List<bool> get profileTypesController => _profileTypesController;
-
+  TextEditingController get profileType => _profileType;
   TextEditingController get nameController => _nameController;
   TextEditingController get emailController => _emailController;
-  TextEditingController get passwordController => _passwordController;
-
-  String get profileType => _profileType;
-  set profileType(String value) {
-    _profileType = value;
-  }
-
-  bool get showPassword => _showPassword;
-  set showPassword(bool value) {
-    _showPassword = value;
-  }
+  TextEditingController get birthdayDateController => _birthdayDateController;
+  TextEditingController get rgController => _rgController;
+  TextEditingController get cpfController => _cpfController;
+  TextEditingController get sexController => _sexController;
+  TextEditingController get phoneController => _phoneController;
 }
