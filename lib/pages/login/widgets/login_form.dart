@@ -14,7 +14,7 @@ class LoginForm extends StatelessWidget {
       child: Flexible(
           flex: 1,
           child: Padding(
-            padding: const EdgeInsets.all(30),
+            padding: const EdgeInsets.all(32),
             child: Column(children: [
               TextFormField(
                 controller: controller.state.emailController,
@@ -23,7 +23,7 @@ class LoginForm extends StatelessWidget {
                     border: OutlineInputBorder(), labelText: 'Email'),
               ),
               const SizedBox(
-                height: 30,
+                height: 32,
               ),
               TextFormField(
                 controller: controller.state.passwordController,
@@ -55,7 +55,7 @@ class LoginForm extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 16,
               ),
               FilledButton(
                 style: ElevatedButton.styleFrom(
