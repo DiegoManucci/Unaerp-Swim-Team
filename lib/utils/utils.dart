@@ -41,6 +41,19 @@ class Utils {
     );
   }
 
+  static Future<DateTime?> showCustomDatePicker(BuildContext context, DateTime? selectedDate) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+        selectedDate = picked;
+    }
+    return selectedDate;
+  }
+
   static bool doesEmailMatchRegex(String value) {
     String emailPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = RegExp(emailPattern);
