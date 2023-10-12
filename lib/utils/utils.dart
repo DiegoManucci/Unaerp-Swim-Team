@@ -5,6 +5,13 @@ class Utils {
     return value[0].toUpperCase() + value.substring(1).toLowerCase();
   }
 
+  static String formatDate(DateTime? date) {
+    if (date == null) {
+      return '';
+    }
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
   static void showCustomAlertDialog(BuildContext context, String title, String content, List<Widget> actions) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
