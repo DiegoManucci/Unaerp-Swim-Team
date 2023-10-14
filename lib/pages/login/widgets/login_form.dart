@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unaerp_swim_team/application_controller.dart';
 
 import '../login_controller.dart';
 
@@ -57,17 +59,20 @@ class LoginForm extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              FilledButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  minimumSize: const Size.fromHeight(50),
-                ),
-                onPressed: () {
-                  controller.onLogin(context);
-                },
-                child: const Text('Entrar'),
-              ),
+              Consumer<ApplicationController>(
+                  builder: (context, applicationController, child) {
+                return FilledButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  onPressed: () {
+                    controller.onLogin(context, applicationController);
+                  },
+                  child: const Text('Entrar'),
+                );
+              }),
             ]),
           )),
     );

@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/application_controller.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
+import 'package:unaerp_swim_team/types/user_type.dart';
 import 'package:unaerp_swim_team/utils/utils.dart';
 
+import '../../types/user.dart';
 import '../home_administrator/home_administrator_view.dart';
 
 class LoginController extends ChangeNotifier {
@@ -17,14 +20,52 @@ class LoginController extends ChangeNotifier {
     debugPrint('Forgot Password');
   }
 
-  void onLogin(context) {
+  void onLogin(context, ApplicationController applicationController) {
     if (!state.loginFormKey.currentState!.validate()) {
       return;
     }
 
+    List<User> users = [
+      User(
+        'Administrador',
+        'administrador@administrador.com',
+        'administrador',
+        UserType.administrador,
+      ),
+      User(
+        'Atleta',
+        'atleta@atleta.com',
+        'atleta',
+        UserType.atleta,
+      ),
+      User(
+        'treinador',
+        'treinador@treinador.com',
+        'treinador',
+        UserType.treinador,
+      ),
+    ];
+
+    applicationController.user = users
+        .firstWhere((user) => user.email == state.emailController.text && user.password == state.passwordController.text);
+
+    Widget? destination;
+
+    switch(applicationController.user!.type) {
+      case UserType.administrador:
+        destination = HomeAdministratorView();
+        break;
+      case UserType.atleta:
+        destination = HomeAdministratorView();
+        break;
+      case UserType.treinador:
+        destination = HomeAdministratorView();
+        break;
+    }
+
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => HomeAdministratorView()),
+      MaterialPageRoute(builder: (context) => destination!),
           (Route<dynamic> route) => false,
     );
   }
