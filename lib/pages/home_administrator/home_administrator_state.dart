@@ -4,7 +4,7 @@ import 'package:unaerp_swim_team/pages/users/users_view.dart';
 
 import '../../types/app_page.dart';
 
-class HomeState {
+class HomeAdministratorState {
   int _selectedIndex = 0;
 
   final List<AppPage> _appPages = [

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'home_controller.dart';
+import 'home_administrator_controller.dart';
 
-class HomeView extends StatelessWidget {
-  final HomeController controller = HomeController();
+class HomeAdministratorView extends StatelessWidget {
+  final HomeAdministratorController controller = HomeAdministratorController();
 
-  HomeView({super.key});
+  HomeAdministratorView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => controller,
-      child: Consumer<HomeController>(
+      child: Consumer<HomeAdministratorController>(
         builder: (context, controller, child) {
           return Scaffold(
               appBar: AppBar(
