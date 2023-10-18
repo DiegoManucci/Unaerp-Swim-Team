@@ -1,14 +1,14 @@
 
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/pages/athletes/athletes_state.dart';
+import 'package:unaerp_swim_team/pages/athletes/widgets/athletes_list_item_actions.dart';
 import 'package:unaerp_swim_team/pages/create_user/create_user_view.dart';
-import 'package:unaerp_swim_team/pages/users/users_state.dart';
-import 'package:unaerp_swim_team/pages/users/widgets/users_list_item_actions.dart';
 import 'package:unaerp_swim_team/types/user.dart';
 
 import '../../utils/utils.dart';
 
-class UsersController extends ChangeNotifier {
-  final UsersState state = UsersState();
+class AthletesController extends ChangeNotifier {
+  final AthletesState state = AthletesState();
 
   void setUsers(List<User> users) {
     state.users = users;
@@ -33,11 +33,11 @@ class UsersController extends ChangeNotifier {
     ]);
   }
 
-  void onOpenActions(BuildContext context, User user, UsersController controller) {
-    Utils.showCustomBottomSheet(context, UsersListItemActions(user: user, controller: controller));
+  void onOpenActions(BuildContext context, User user, AthletesController controller) {
+    Utils.showCustomBottomSheet(context, AthletesListItemActions(user: user, controller: controller));
   }
 
   void onAddUser(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: null)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: 2)));
   }
 }

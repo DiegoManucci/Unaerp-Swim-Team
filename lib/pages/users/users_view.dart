@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unaerp_swim_team/pages/users/users_controller.dart';
-import 'package:unaerp_swim_team/pages/users/widgets/users_list.dart';
 
 class UsersView extends StatelessWidget {
   final UsersController controller = UsersController();
@@ -15,7 +14,42 @@ class UsersView extends StatelessWidget {
       child: Consumer<UsersController>(
         builder: (context, controller, child) => Stack(
           children: [
-            UsersList(controller: controller),
+            ListView.builder(
+              itemCount: controller.state.users.length,
+              itemBuilder: (context, index) {
+                if (index < controller.state.users.length) {
+                  final user = controller.state.users[index];
+                  return Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Card(
+                        elevation: 0,
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              dense: true,
+                              leading: const Icon(Icons.person_outline),
+                              title: Text(user.name),
+                              subtitle: Text(user.type.name),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.more_vert_outlined),
+                                onPressed: () { controller.onOpenActions(context, user, controller); },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return const SizedBox(
+                    height: 86,
+                  );
+                }
+              },
+            ),
             Positioned(
               bottom: 0,
               right: 0,

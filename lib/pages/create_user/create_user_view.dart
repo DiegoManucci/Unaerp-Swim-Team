@@ -7,15 +7,11 @@ import 'create_user_controller.dart';
 
 class CreateUserView extends StatelessWidget {
   final CreateUserController controller = CreateUserController();
+  final int? defaultUserType;
 
-  CreateUserView({super.key});
-
-  List<String> phoneNumbers = [
-    '120394823094',
-    '120394823094',
-  ];
-
-  TextEditingController phoneNumberController = TextEditingController();
+  CreateUserView({super.key, required this.defaultUserType}){
+    controller.setSelectedUserType(defaultUserType ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,73 +48,76 @@ class CreateUserView extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         runSpacing: 32,
                         children: [
-                          Wrap(
-                            alignment: WrapAlignment.center,
-                            runSpacing: 16,
-                            children: [
-                              const Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text('Tipo de Usuário',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                          )),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.black,
-                                    height: 20,
-                                    thickness: 2,
-                                    indent: 0,
-                                    endIndent: 0,
-                                  ),
-                                ],
-                              ),
-                              ToggleButtons(
-                                direction: Axis.horizontal,
-                                onPressed: controller.setSelectedUserType,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
-                                selectedBorderColor: Colors.black,
-                                selectedColor: Colors.white,
-                                fillColor:
-                                    Theme.of(context).colorScheme.primary,
-                                color: Colors.black,
-                                constraints: const BoxConstraints(
-                                  minHeight: 20.0,
-                                  minWidth: 100.0,
+                          Visibility(
+                            visible: defaultUserType != 2,
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              runSpacing: 16,
+                              children: [
+                                const Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('Tipo de Usuário',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black,
+                                            )),
+                                      ],
+                                    ),
+                                    Divider(
+                                      color: Colors.black,
+                                      height: 20,
+                                      thickness: 2,
+                                      indent: 0,
+                                      endIndent: 0,
+                                    ),
+                                  ],
                                 ),
-                                isSelected:
-                                    controller.getSelectedUserTypeListState(),
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Administrador',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
+                                ToggleButtons(
+                                  direction: Axis.horizontal,
+                                  onPressed: controller.setSelectedUserType,
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(5)),
+                                  selectedBorderColor: Colors.black,
+                                  selectedColor: Colors.white,
+                                  fillColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  color: Colors.black,
+                                  constraints: const BoxConstraints(
+                                    minHeight: 20.0,
+                                    minWidth: 100.0,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Treinador',
-                                      style: TextStyle(fontSize: 16),
+                                  isSelected:
+                                      controller.getSelectedUserTypeListState(),
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Administrador',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Atleta',
-                                      style: TextStyle(fontSize: 16),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Treinador',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Atleta',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           Wrap(
                             alignment: WrapAlignment.center,

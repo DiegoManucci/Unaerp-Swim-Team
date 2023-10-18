@@ -8,8 +8,8 @@ class LoginState {
   bool _showPassword = true;
 
   LoginState() {
-    _emailController.text = 'administrador@administrador.com';
-    _passwordController.text = 'administrador';
+    _emailController.text = 'trainer@trainer.com';
+    _passwordController.text = 'trainer_';
   }
 
   TextEditingController get emailController => _emailController;

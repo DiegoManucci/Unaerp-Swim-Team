@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:unaerp_swim_team/application_controller.dart';
+import 'package:unaerp_swim_team/pages/home_athlete/home_athlete_view.dart';
+import 'package:unaerp_swim_team/pages/home_trainer/home_trainer_view.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
 import 'package:unaerp_swim_team/types/user_type.dart';
 import 'package:unaerp_swim_team/utils/utils.dart';
@@ -29,19 +31,19 @@ class LoginController extends ChangeNotifier {
       User(
         'Administrador',
         'administrador@administrador.com',
-        'administrador',
+        '12345678',
         UserType.administrador,
       ),
       User(
         'Atleta',
         'atleta@atleta.com',
-        'atleta',
+        '12345678',
         UserType.atleta,
       ),
       User(
-        'treinador',
-        'treinador@treinador.com',
-        'treinador',
+        'Treinador',
+        'trainer@trainer.com',
+        '12345678',
         UserType.treinador,
       ),
     ];
@@ -56,10 +58,10 @@ class LoginController extends ChangeNotifier {
         destination = HomeAdministratorView();
         break;
       case UserType.atleta:
-        destination = HomeAdministratorView();
+        destination = HomeAthleteView();
         break;
       case UserType.treinador:
-        destination = HomeAdministratorView();
+        destination = HomeTrainerView();
         break;
     }
 

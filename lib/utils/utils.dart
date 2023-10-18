@@ -29,6 +29,23 @@ class Utils {
     );
   }
 
+  static void showCustomDialog(BuildContext context, String title, Widget content, List<Widget> actions) {
+    AlertDialog alert = AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        actionsPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+        title: Text(title),
+        content: content,
+        actions: actions
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   static void showCustomSnackBar(BuildContext context, String message, {Duration? duration, SnackBarAction? action}) {
     final snackBar = SnackBar(
       content: Text(message),
