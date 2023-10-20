@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
   static String initcap(String value) {
@@ -10,6 +11,22 @@ class Utils {
       return '';
     }
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+
+  static String formatTime(int timeInMilliseconds) {
+
+    NumberFormat doubleZerosFormatter = NumberFormat("00");
+    NumberFormat tripleZerosFormatter = NumberFormat("000");
+
+    int minutes = (timeInMilliseconds ~/ Duration.millisecondsPerMinute);
+    int seconds = (timeInMilliseconds ~/ Duration.millisecondsPerSecond) - (minutes * 60);
+    int milliseconds = (timeInMilliseconds) - (seconds * Duration.millisecondsPerSecond) - (minutes * Duration.millisecondsPerMinute);
+
+    String minutesFormatted = doubleZerosFormatter.format(minutes);
+    String secondsFormatted = doubleZerosFormatter.format(seconds);
+    String millisecondsFormatted = tripleZerosFormatter.format(milliseconds);
+
+    return '$minutesFormatted:$secondsFormatted.$millisecondsFormatted';
   }
 
   static void showCustomAlertDialog(BuildContext context, String title, String content, List<Widget> actions) {
