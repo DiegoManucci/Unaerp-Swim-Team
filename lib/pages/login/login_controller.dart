@@ -42,7 +42,7 @@ class LoginController extends ChangeNotifier {
       ),
       User(
         'Treinador',
-        'trainer@trainer.com',
+        'treinador@treinador.com',
         '12345678',
         UserType.treinador,
       ),
