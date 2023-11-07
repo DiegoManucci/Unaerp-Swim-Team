@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -103,5 +104,19 @@ class Utils {
 
   static bool doesPasswordHaveAtLeastEightCharacters(value) {
     return value.length >= 8;
+  }
+
+  static Future<String?> getUserType(String uid) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        return userDoc['userType'];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao buscar informações de usuário: $e');
+      return null;
+    }
   }
 }

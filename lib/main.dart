@@ -1,9 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:unaerp_swim_team/application_provider.dart';
 import 'package:unaerp_swim_team/generated/color_schemes.g.dart';
 import 'package:unaerp_swim_team/pages/login/login_view.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+
+main() async  {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.android,
+  );
+
   runApp(const MyApp());
 }
 

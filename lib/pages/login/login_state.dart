@@ -8,7 +8,7 @@ class LoginState {
   bool _showPassword = true;
 
   LoginState() {
-    _emailController.text = 'administrador@administrador.com';
+    _emailController.text = 'dbizzotto@sou.unaerp.edu.br';
     _passwordController.text = '12345678';
   }
 
