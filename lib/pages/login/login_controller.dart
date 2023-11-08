@@ -18,9 +18,58 @@ class LoginController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onForgotPassword() {
-    debugPrint('Forgot Password');
+  void onForgotPassword(BuildContext context) {
+    String email = ''; // Initialize an empty email value
+
+    Utils.showCustomDialog(
+      context,
+      'Esqueci a senha',
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text('Insira seu e-mail para resetar sua senha.'),
+          TextFormField(
+            onChanged: (value) {
+              email = value; // Update the email variable when the user types
+            },
+            decoration: InputDecoration(
+              labelText: 'E-mail',
+            ),
+          ),
+        ],
+      ),
+      [
+        TextButton(
+          onPressed: () => Navigator.pop(context), // Close the dialog
+          child: Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () async {
+            try {
+              await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+              Navigator.pop(context); // Close the dialog
+              Utils.showCustomDialog(
+                  context,
+                  'Email enviado',
+                  Text('Um email foi enviado para $email com instruções para resetar sua senha.'),
+                  [TextButton(onPressed: () => Navigator.pop(context), child: Text('OK')),
+                  ]);
+            } catch (e) {
+              Navigator.pop(context); // Close the dialog
+              Utils.showCustomDialog(
+                  context,
+                  'Erro',
+                  Text('Não foi possível enviar o email.'),
+                  [TextButton(onPressed: () => Navigator.pop(context), child: Text('OK')),
+                  ]);
+            }
+          },
+          child: Text('Enviar'),
+        ),
+      ],
+    );
   }
+
 
   Future<void> onLogin(context, ApplicationController applicationController) async {
     if (!state.loginFormKey.currentState!.validate()) {
@@ -62,7 +111,9 @@ class LoginController extends ChangeNotifier {
       );
 
     } catch (e) {
-      print('Erro no login: $e');
+      state.errorMessage = 'Email ou senha inválidos';
+      state.loginFormKey.currentState!.validate();
+      notifyListeners();
     }
   }
 

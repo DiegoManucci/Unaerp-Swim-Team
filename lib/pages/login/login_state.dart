@@ -6,6 +6,7 @@ class LoginState {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _showPassword = true;
+  String? errorMessage;
 
   LoginState() {
     _emailController.text = 'dbizzotto@sou.unaerp.edu.br';

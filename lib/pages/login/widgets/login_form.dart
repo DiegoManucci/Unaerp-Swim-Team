@@ -48,7 +48,7 @@ class LoginForm extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: controller.onForgotPassword,
+                    onTap: () => controller.onForgotPassword(context),
                     child: const Padding(
                       padding: EdgeInsets.fromLTRB(4, 2, 4, 2),
                       child: Text('Esqueci a senha'),
@@ -73,6 +73,13 @@ class LoginForm extends StatelessWidget {
                   child: const Text('Entrar'),
                 );
               }),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                controller.state.errorMessage ?? '', // Display the error message here
+                style: const TextStyle(color: Colors.red), // You can style the error message
+              ),
             ]),
           )),
     );
