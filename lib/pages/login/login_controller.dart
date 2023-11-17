@@ -102,8 +102,6 @@ class LoginController extends ChangeNotifier {
           break;
       }
 
-      destination = HomeAdministratorView();
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => destination!),
