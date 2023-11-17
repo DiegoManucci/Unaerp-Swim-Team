@@ -147,6 +147,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               TextFormField(
                                 controller: controller.getNameController(),
+                                validator: controller.nameValidator,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Nome'),
@@ -473,7 +474,7 @@ class CreateUserView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               minimumSize: const Size.fromHeight(50),
                             ),
-                            onPressed: () {},
+                            onPressed: () => controller.createUser(context),
                             child: const Text('Cadastrar'),
                           ),
                         ],

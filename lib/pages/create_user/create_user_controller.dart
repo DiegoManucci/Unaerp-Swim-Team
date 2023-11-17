@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/types/user_type.dart';
 
 import '../../types/phone_type.dart';
 import '../../utils/utils.dart';
@@ -34,11 +36,43 @@ class CreateUserController extends ChangeNotifier {
     return state.emailController;
   }
 
+  Future<void> createUser(BuildContext context) async {
+    if (!state.createUserFormKey.currentState!.validate()) {
+      return;
+    }
+
+    try {
+      String? userId = await Utils.createUser(state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
+
+      if (userId != null) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: state.emailController.text,
+          password: Utils.generateRandomPassword(8),
+        );
+
+        Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
+        Navigator.pop(context);
+      } else {
+        Utils.showCustomSnackBar(context, 'Erro ao criar usuário');
+      }
+    } catch (e) {
+      print('Erro ao criar usuário: $e');
+      Utils.showCustomSnackBar(context, 'Erro ao criar usuário');
+    }
+  }
+
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Campo obrigatório';
     } else if (!Utils.doesEmailMatchRegex(value)) {
       return 'E-mail inválido';
+    }
+    return null;
+  }
+
+  String? nameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
     }
     return null;
   }

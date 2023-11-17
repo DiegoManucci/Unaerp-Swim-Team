@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -118,5 +120,27 @@ class Utils {
       print('Erro ao buscar informações de usuário: $e');
       return null;
     }
+  }
+
+  static Future<String?> createUser(String name, String email, String userType) async {
+    try {
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      DocumentReference userDoc = await users.add({
+        'name': name,
+        'email': email,
+        'userType': userType
+      });
+      return userDoc.id;
+    } catch (e) {
+      print('Erro ao criar usuário: $e');
+      return null;
+    }
+  }
+
+  static String generateRandomPassword(int length) {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#\$%^&*()_-+=<>?/{}[]|';
+
+    Random random = Random();
+    return List.generate(length, (index) => charset[random.nextInt(charset.length)]).join();
   }
 }
