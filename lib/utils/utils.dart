@@ -122,15 +122,15 @@ class Utils {
     }
   }
 
-  static Future<String?> createUser(String name, String email, String userType) async {
+  static Future<String?> createUser(String userId, String name, String email, String userType) async {
     try {
       CollectionReference users = FirebaseFirestore.instance.collection('users');
-      DocumentReference userDoc = await users.add({
+      await users.doc(userId).set({
         'name': name,
         'email': email,
         'userType': userType
       });
-      return userDoc.id;
+      return userId;
     } catch (e) {
       print('Erro ao criar usuário: $e');
       return null;
@@ -142,5 +142,41 @@ class Utils {
 
     Random random = Random();
     return List.generate(length, (index) => charset[random.nextInt(charset.length)]).join();
+  }
+
+  static Future<String?> createAthlete(String userId, Map<String, dynamic> athleteData) async {
+    try {
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      await users.doc(userId.toString()).set(athleteData, SetOptions(merge: true));
+
+      return userId.toString();
+    } catch (e) {
+      print('Erro ao criar atleta: $e');
+      return null;
+    }
+  }
+
+  static Future<void> attachDocumentsToAthlete(
+      String athleteId,
+      String? medicalCertificatePath,
+      String? rgPath,
+      String? cpfPath,
+      String? proofOfResidencePath,
+      String? photoPath,
+      String? signedRegulationPath,
+      ) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(athleteId).update({
+        'medicalCertificatePath': medicalCertificatePath,
+        'rgPath': rgPath,
+        'cpfPath': cpfPath,
+        'proofOfResidencePath': proofOfResidencePath,
+        'photoPath': photoPath,
+        'signedRegulationPath': signedRegulationPath,
+      });
+    } catch (e) {
+      print('Erro ao anexar documentos ao atleta: $e');
+      throw e;
+    }
   }
 }

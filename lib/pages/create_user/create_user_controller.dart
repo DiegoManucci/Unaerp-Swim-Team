@@ -42,14 +42,14 @@ class CreateUserController extends ChangeNotifier {
     }
 
     try {
-      String? userId = await Utils.createUser(state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
+      UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: state.emailController.text,
+        password: Utils.generateRandomPassword(8),
+      );
+
+      String? userId = await Utils.createUser(result.user!.uid, state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
 
       if (userId != null) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: state.emailController.text,
-          password: Utils.generateRandomPassword(8),
-        );
-
         Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
         Navigator.pop(context);
       } else {
@@ -217,5 +217,44 @@ class CreateUserController extends ChangeNotifier {
 
   String? getSignedRegulationPath() {
     return state.signedRegulationPath;
+  }
+
+  Future<void> createAthlete(BuildContext context) async {
+    if (!state.createUserFormKey.currentState!.validate()) {
+      return;
+    }
+
+    try {
+      UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: state.emailController.text,
+        password: Utils.generateRandomPassword(8),
+      );
+
+      await Utils.createUser(result.user!.uid, state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
+
+      Map<String, dynamic> atlheteData = {};
+
+      atlheteData['birthDate'] = state.birthDateController.text;
+      atlheteData['sex'] = state.sexController.text;
+      atlheteData['address'] = state.addressController.text;
+      atlheteData['nacionality'] = state.nacionalityController.text;
+      atlheteData['naturalness'] = state.naturalnessController.text;
+      atlheteData['fatherName'] = state.fatherNameController.text;
+      atlheteData['motherName'] = state.motherNameController.text;
+      atlheteData['clubOfOrigin'] = state.clubOfOriginController.text;
+      atlheteData['stylesAndEvents'] = state.stylesAndEventsController.text;
+      atlheteData['workLocation'] = state.workLocationController.text;
+      atlheteData['medicalInsurance'] = state.medicalInsuranceController.text;
+      atlheteData['medicationAllergy'] = state.medicationAllergyController.text;
+      atlheteData['phoneTypes'] = state.selectedPhoneTypes.map((e) => e.toString().split('.').last).toList();
+
+      await Utils.createAthlete(result.user!.uid, atlheteData);
+
+      Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
+      Navigator.pop(context);
+    } catch (e) {
+      print('Erro ao criar usuário: $e');
+      Utils.showCustomSnackBar(context, 'Erro ao criar usuário');
+    }
   }
 }

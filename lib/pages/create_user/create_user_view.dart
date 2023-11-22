@@ -474,7 +474,11 @@ class CreateUserView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               minimumSize: const Size.fromHeight(50),
                             ),
-                            onPressed: () => controller.createUser(context),
+                            onPressed: () => {
+                              (controller.state.selectedUserType == 0 || controller.state.selectedUserType == 1)
+                                  ? controller.createUser(context)
+                                  : controller.createAthlete(context)
+                            },
                             child: const Text('Cadastrar'),
                           ),
                         ],
