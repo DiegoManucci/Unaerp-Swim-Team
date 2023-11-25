@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "929465949743",
+    "project_id": "unaerp-swim-team-8469c",
+    "storage_bucket": "unaerp-swim-team-8469c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929465949743:android:cc31ad4e0e283fdfa370da",
+        "android_client_info": {
+          "package_name": "br.unaerp.unaerp_swim_team"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0X2ooin40kChmxKf4cPkRbzUHbgXc0LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

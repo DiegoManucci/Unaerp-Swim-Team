@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAlZ7PgJJJp1U1DGkraUnZCYWTTqt-yB_I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>270299248522</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>br.unaerp.unaerpSwimTeam</string>
+	<key>PROJECT_ID</key>
+	<string>unaerp-swim-team-3ffa8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>unaerp-swim-team-3ffa8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:270299248522:ios:68cd10919af40b97e93a73</string>
+</dict>
+</plist>
