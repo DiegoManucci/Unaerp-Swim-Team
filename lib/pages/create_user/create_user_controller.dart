@@ -246,7 +246,13 @@ class CreateUserController extends ChangeNotifier {
       atlheteData['workLocation'] = state.workLocationController.text;
       atlheteData['medicalInsurance'] = state.medicalInsuranceController.text;
       atlheteData['medicationAllergy'] = state.medicationAllergyController.text;
-      atlheteData['phoneTypes'] = state.selectedPhoneTypes.map((e) => e.toString().split('.').last).toList();
+      atlheteData['phones'] = state.phoneControllers.map((e) => e.text).toList();
+      atlheteData['medicalCertificatePath'] = state.medicalCertificatePath;
+      atlheteData['rgPath'] = state.rgPath;
+      atlheteData['cpfPath'] = state.cpfPath;
+      atlheteData['proofOfResidencePath'] = state.proofOfResidencePath;
+      atlheteData['photoPath'] = state.photoPath;
+      atlheteData['signedRegulationPath'] = state.signedRegulationPath;
 
       await Utils.createAthlete(result.user!.uid, atlheteData);
 

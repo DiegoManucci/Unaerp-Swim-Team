@@ -16,9 +16,9 @@ class EvaluationState {
   ];
 
   List<User> _atlhetes = [
-    User("Atleta 1", "Atleta 1", "", UserType.atleta),
-    User("Atleta 2", "Atleta 2", "", UserType.atleta),
-    User("Atleta 3", "Atleta 3", "", UserType.atleta),
+    User('1',"Atleta 1", "Atleta 1", "", UserType.atleta),
+    User('1',"Atleta 2", "Atleta 2", "", UserType.atleta),
+    User('1',"Atleta 3", "Atleta 3", "", UserType.atleta),
   ];
 
   bool openInitialFrequencyDialog = false;

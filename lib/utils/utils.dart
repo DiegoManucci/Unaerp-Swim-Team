@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:unaerp_swim_team/types/user_type.dart';
+
+import '../types/user.dart';
 
 class Utils {
   static String initcap(String value) {
@@ -149,6 +154,81 @@ class Utils {
       CollectionReference users = FirebaseFirestore.instance.collection('users');
       await users.doc(userId.toString()).set(athleteData, SetOptions(merge: true));
 
+      String medicalCertificatePath = '';
+      String rgPath = '';
+      String cpfPath = '';
+      String proofOfResidencePath = '';
+      String photoPath = '';
+      String signedRegulationPath = '';
+
+      if(athleteData['medicalCertificatePath'] != null) {
+
+        medicalCertificatePath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = File(athleteData['medicalCertificatePath'].toString());
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$medicalCertificatePath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        medicalCertificatePath = 'uploads/$medicalCertificatePath${file.path.toString().split('.').last}';
+      }
+
+      if(athleteData['rgPath'] != null) {
+
+        rgPath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = File(athleteData['rgPath']);
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$rgPath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        rgPath = 'uploads/$rgPath${file.path.toString().split('.').last}';
+      }
+
+      if(athleteData['cpfPath'] != null) {
+
+        cpfPath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = File(athleteData['cpfPath']);
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$cpfPath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        cpfPath = 'uploads/$cpfPath${file.path.toString().split('.').last}';
+      }
+
+      if(athleteData['proofOfResidencePath'] != null) {
+
+        proofOfResidencePath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = File(athleteData['proofOfResidencePath']);
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$proofOfResidencePath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        proofOfResidencePath = 'uploads/$proofOfResidencePath${file.path.toString().split('.').last}';
+      }
+
+      if(athleteData['photoPath'] != null) {
+
+        photoPath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = athleteData['photoPath'];
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$photoPath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        photoPath = 'uploads/$photoPath${file.path.toString().split('.').last}';
+      }
+
+      if(athleteData['signedRegulationPath'] != null) {
+
+        signedRegulationPath = DateTime.now().millisecondsSinceEpoch.toString();
+        File file = File(athleteData['signedRegulationPath']);
+
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$signedRegulationPath${file.path.toString().split('.').last}');
+        await storageReference.putFile(file);
+
+        signedRegulationPath = 'uploads/$signedRegulationPath${file.path.toString().split('.').last}';
+      }
+
+      attachDocumentsToAthlete(userId, medicalCertificatePath, rgPath, cpfPath, proofOfResidencePath, photoPath, signedRegulationPath);
+
       return userId.toString();
     } catch (e) {
       print('Erro ao criar atleta: $e');
@@ -176,6 +256,47 @@ class Utils {
       });
     } catch (e) {
       print('Erro ao anexar documentos ao atleta: $e');
+      throw e;
+    }
+  }
+
+  static String collapseString(String value, int maxLength) {
+    if (value.length <= maxLength) {
+      return value;
+    }
+    return value.substring(0, maxLength) + '...';
+  }
+
+  static Future<void> deleteUser(String userId) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(userId).delete();
+    } catch (e) {
+      print('Erro ao excluir atleta: $e');
+      throw e;
+    }
+  }
+
+  static Future<List<User>> listUsers(){
+    try {
+      return FirebaseFirestore.instance.collection('users').get().then((value) {
+
+        List<User> users = [];
+
+        value.docs.forEach((element) {
+          users.add(User(
+            element.id,
+            element['name'],
+            element['email'],
+            '',
+            UserType.values.firstWhere((e) => e.toString() == 'UserType.${element['userType']}'),
+          ));
+        });
+
+        return users;
+
+      });
+    } catch (e) {
+      print('Erro ao listar usuários: $e');
       throw e;
     }
   }

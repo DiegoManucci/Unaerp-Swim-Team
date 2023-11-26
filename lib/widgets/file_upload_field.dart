@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/utils/utils.dart';
 
 class FileUploadField extends StatelessWidget {
   final String documentType;
@@ -26,7 +27,7 @@ class FileUploadField extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(filePath.isEmpty ? 'Nenhum arquivo selecionado' : filePath),
+            Text(filePath.isEmpty ? 'Nenhum arquivo selecionado' : Utils.collapseString(filePath, 20)),
             ElevatedButton(
               onPressed: () async {
                 FilePickerResult? result =

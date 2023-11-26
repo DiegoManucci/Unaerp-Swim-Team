@@ -10,8 +10,18 @@ import '../../utils/utils.dart';
 class UsersController extends ChangeNotifier {
   final UsersState state = UsersState();
 
+  UsersController() {
+    setupUsers();
+  }
+
   void setUsers(List<User> users) {
     state.users = users;
+  }
+
+  void setupUsers() async {
+    List<User> users = await Utils.listUsers();
+    setUsers(users);
+    notifyListeners();
   }
 
   void onRemoveUser(BuildContext context, User user) {
@@ -22,7 +32,8 @@ class UsersController extends ChangeNotifier {
       ),
       TextButton(
         onPressed: () {
-          state.users.remove(user);
+          Utils.deleteUser(user.id!);
+          state.users = state.users.where((element) => element.id != user.id).toList();
           Utils.showCustomSnackBar(context, "Usuário: ${user.name} excluído com sucesso!");
           Navigator.of(context).pop();
           Navigator.of(context).pop();
