@@ -166,10 +166,10 @@ class Utils {
         medicalCertificatePath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = File(athleteData['medicalCertificatePath'].toString());
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$medicalCertificatePath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$medicalCertificatePath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        medicalCertificatePath = 'uploads/$medicalCertificatePath${file.path.toString().split('.').last}';
+        medicalCertificatePath = 'uploads/$medicalCertificatePath.${file.path.toString().split('.').last}';
       }
 
       if(athleteData['rgPath'] != null) {
@@ -177,10 +177,10 @@ class Utils {
         rgPath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = File(athleteData['rgPath']);
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$rgPath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$rgPath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        rgPath = 'uploads/$rgPath${file.path.toString().split('.').last}';
+        rgPath = 'uploads/$rgPath.${file.path.toString().split('.').last}';
       }
 
       if(athleteData['cpfPath'] != null) {
@@ -188,10 +188,10 @@ class Utils {
         cpfPath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = File(athleteData['cpfPath']);
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$cpfPath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$cpfPath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        cpfPath = 'uploads/$cpfPath${file.path.toString().split('.').last}';
+        cpfPath = 'uploads/$cpfPath.${file.path.toString().split('.').last}';
       }
 
       if(athleteData['proofOfResidencePath'] != null) {
@@ -199,10 +199,10 @@ class Utils {
         proofOfResidencePath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = File(athleteData['proofOfResidencePath']);
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$proofOfResidencePath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$proofOfResidencePath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        proofOfResidencePath = 'uploads/$proofOfResidencePath${file.path.toString().split('.').last}';
+        proofOfResidencePath = 'uploads/$proofOfResidencePath.${file.path.toString().split('.').last}';
       }
 
       if(athleteData['photoPath'] != null) {
@@ -210,10 +210,10 @@ class Utils {
         photoPath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = athleteData['photoPath'];
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$photoPath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$photoPath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        photoPath = 'uploads/$photoPath${file.path.toString().split('.').last}';
+        photoPath = 'uploads/$photoPath.${file.path.toString().split('.').last}';
       }
 
       if(athleteData['signedRegulationPath'] != null) {
@@ -221,10 +221,10 @@ class Utils {
         signedRegulationPath = DateTime.now().millisecondsSinceEpoch.toString();
         File file = File(athleteData['signedRegulationPath']);
 
-        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$signedRegulationPath${file.path.toString().split('.').last}');
+        Reference storageReference = FirebaseStorage.instance.ref().child('uploads/$signedRegulationPath.${file.path.toString().split('.').last}');
         await storageReference.putFile(file);
 
-        signedRegulationPath = 'uploads/$signedRegulationPath${file.path.toString().split('.').last}';
+        signedRegulationPath = 'uploads/$signedRegulationPath.${file.path.toString().split('.').last}';
       }
 
       attachDocumentsToAthlete(userId, medicalCertificatePath, rgPath, cpfPath, proofOfResidencePath, photoPath, signedRegulationPath);

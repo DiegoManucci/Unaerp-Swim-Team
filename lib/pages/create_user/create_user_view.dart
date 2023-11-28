@@ -8,8 +8,9 @@ import 'create_user_controller.dart';
 class CreateUserView extends StatelessWidget {
   final CreateUserController controller = CreateUserController();
   final int? defaultUserType;
+  final Function fetchUsers;
 
-  CreateUserView({super.key, required this.defaultUserType}){
+  CreateUserView({super.key, required this.defaultUserType, required this.fetchUsers}){
     controller.setSelectedUserType(defaultUserType ?? 0);
   }
 
@@ -476,8 +477,8 @@ class CreateUserView extends StatelessWidget {
                             ),
                             onPressed: () => {
                               (controller.state.selectedUserType == 0 || controller.state.selectedUserType == 1)
-                                  ? controller.createUser(context)
-                                  : controller.createAthlete(context)
+                                  ? controller.createUser(context, fetchUsers)
+                                  : controller.createAthlete(context, fetchUsers)
                             },
                             child: const Text('Cadastrar'),
                           ),

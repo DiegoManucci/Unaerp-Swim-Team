@@ -9,6 +9,9 @@ class UsersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    controller.setupUsers();
+
     return ChangeNotifierProvider(
       create: (context) => controller,
       child: Consumer<UsersController>(

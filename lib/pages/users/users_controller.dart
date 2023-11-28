@@ -49,6 +49,6 @@ class UsersController extends ChangeNotifier {
   }
 
   void onAddUser(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: null)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: null, fetchUsers: setupUsers)));
   }
 }

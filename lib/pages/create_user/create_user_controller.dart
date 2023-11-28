@@ -36,7 +36,7 @@ class CreateUserController extends ChangeNotifier {
     return state.emailController;
   }
 
-  Future<void> createUser(BuildContext context) async {
+  Future<void> createUser(BuildContext context, Function fetchUsers) async {
     if (!state.createUserFormKey.currentState!.validate()) {
       return;
     }
@@ -47,11 +47,17 @@ class CreateUserController extends ChangeNotifier {
         password: Utils.generateRandomPassword(8),
       );
 
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: state.emailController.text);
+
       String? userId = await Utils.createUser(result.user!.uid, state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
 
       if (userId != null) {
         Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
+
+        fetchUsers();
+
         Navigator.pop(context);
+
       } else {
         Utils.showCustomSnackBar(context, 'Erro ao criar usuário');
       }
@@ -219,15 +225,18 @@ class CreateUserController extends ChangeNotifier {
     return state.signedRegulationPath;
   }
 
-  Future<void> createAthlete(BuildContext context) async {
+  Future<void> createAthlete(BuildContext context, Function fetchUsers) async {
     if (!state.createUserFormKey.currentState!.validate()) {
       return;
     }
 
     try {
+
+      String randomPassword = Utils.generateRandomPassword(8);
+
       UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: state.emailController.text,
-        password: Utils.generateRandomPassword(8),
+        password: randomPassword,
       );
 
       await Utils.createUser(result.user!.uid, state.nameController.text, state.emailController.text, UserType.values[state.selectedUserType].name);
@@ -257,6 +266,9 @@ class CreateUserController extends ChangeNotifier {
       await Utils.createAthlete(result.user!.uid, atlheteData);
 
       Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
+
+      fetchUsers();
+
       Navigator.pop(context);
     } catch (e) {
       print('Erro ao criar usuário: $e');
