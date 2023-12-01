@@ -127,6 +127,26 @@ class Utils {
     }
   }
 
+  static Future<User?> getUser(String uid) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        return User(
+          userDoc.id,
+          userDoc['name'],
+          userDoc['email'],
+          '',
+          UserType.values.firstWhere((e) => e.toString() == 'UserType.${userDoc['userType']}'),
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao buscar informações de usuário: $e');
+      return null;
+    }
+  }
+
   static Future<String?> createUser(String userId, String name, String email, String userType) async {
     try {
       CollectionReference users = FirebaseFirestore.instance.collection('users');

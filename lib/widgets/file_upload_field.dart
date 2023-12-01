@@ -6,11 +6,13 @@ class FileUploadField extends StatelessWidget {
   final String documentType;
   final String filePath;
   final Function(String)? onFileSelected;
+  final Function(String)? validator;
 
   const FileUploadField({
     super.key,
     required this.documentType,
     required this.filePath,
+    required this.validator,
     this.onFileSelected,
   });
 
@@ -32,6 +34,8 @@ class FileUploadField extends StatelessWidget {
               onPressed: () async {
                 FilePickerResult? result =
                 await FilePicker.platform.pickFiles();
+
+                validator?.call(result?.files.single.path ?? '');
 
                 if (result != null) {
                   onFileSelected?.call(result.files.single.path ?? '');

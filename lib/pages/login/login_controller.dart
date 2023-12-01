@@ -6,10 +6,8 @@ import 'package:unaerp_swim_team/application_controller.dart';
 import 'package:unaerp_swim_team/pages/home_athlete/home_athlete_view.dart';
 import 'package:unaerp_swim_team/pages/home_trainer/home_trainer_view.dart';
 import 'package:unaerp_swim_team/pages/login/login_state.dart';
-import 'package:unaerp_swim_team/types/user.dart' as app_user;
 import 'package:unaerp_swim_team/utils/utils.dart';
 
-import '../../types/user_type.dart';
 import '../home_administrator/home_administrator_view.dart';
 
 class LoginController extends ChangeNotifier {
@@ -104,13 +102,7 @@ class LoginController extends ChangeNotifier {
           break;
       }
 
-      applicationController.user = app_user.User(
-        user.uid,
-        user.displayName ?? '',
-        user.email ?? '',
-        '',
-        UserType.values.firstWhere((element) => element.name == userType),
-      );
+      applicationController.user = await Utils.getUser(user.uid);
 
       Navigator.pushAndRemoveUntil(
         context,

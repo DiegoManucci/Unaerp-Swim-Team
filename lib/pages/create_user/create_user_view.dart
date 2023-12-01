@@ -196,6 +196,7 @@ class CreateUserView extends StatelessWidget {
                                       onTap: () {
                                         controller.showBirthDatePicker(context);
                                       },
+                                      validator: controller.birthDateValidator,
                                       readOnly: true,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
@@ -204,6 +205,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getSexController(),
+                                      validator: controller.sexValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Sexo',
@@ -211,6 +213,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getAddressController(),
+                                      validator: controller.addressValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Endereço',
@@ -218,6 +221,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getNaturalnessController(),
+                                      validator: controller.naturalnessValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Naturalidade',
@@ -225,6 +229,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getNacionalityController(),
+                                      validator: controller.nacionalityValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Nacionalidade',
@@ -253,6 +258,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getStylesAndEventsController(),
+                                      validator: controller.stylesAndEventsValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Estilos e Provas',
@@ -267,6 +273,7 @@ class CreateUserView extends StatelessWidget {
                                     ),
                                     TextFormField(
                                       controller: controller.getMedicalInsuranceController(),
+                                      validator: controller.medicalInsuranceValidator,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Convênio Médico',
@@ -426,6 +433,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'Atestado Médico',
+                                validator: controller.medicalCertificateValidator,
                                 filePath: controller.getMedicalCertificatePath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setMedicalCertificatePath(path);
@@ -433,6 +441,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'RG',
+                                validator: controller.rgValidator,
                                 filePath: controller.getRgPath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setRgPath(path);
@@ -440,6 +449,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'CPF',
+                                validator: controller.cpfValidator,
                                 filePath: controller.getCpfPath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setCpfPath(path);
@@ -447,6 +457,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'Comprovante de Residência',
+                                validator: controller.proofOfResidenceValidator,
                                 filePath: controller.getProofOfResidencePath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setProofOfResidencePath(path);
@@ -454,6 +465,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'Foto',
+                                validator: controller.photoValidator,
                                 filePath: controller.getPhotoPath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setPhotoPath(path);
@@ -461,6 +473,7 @@ class CreateUserView extends StatelessWidget {
                               ),
                               FileUploadField(
                                 documentType: 'Regulamento Assinado',
+                                validator: controller.signedRegulationValidator,
                                 filePath: controller.getSignedRegulationPath() ?? '',
                                 onFileSelected: (path) {
                                   controller.setSignedRegulationPath(path);
@@ -481,6 +494,12 @@ class CreateUserView extends StatelessWidget {
                                   : controller.createAthlete(context, fetchUsers)
                             },
                             child: const Text('Cadastrar'),
+                          ),
+                          Text(
+                            controller.phoneValidationMessage,
+                            style: const TextStyle(
+                              color: Colors.red,
+                            ),
                           ),
                         ],
                       ),
