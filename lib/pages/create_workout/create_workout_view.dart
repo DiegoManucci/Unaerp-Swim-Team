@@ -94,7 +94,9 @@ class CreateWorkoutView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                               minimumSize: const Size.fromHeight(50),
                             ),
-                            onPressed: () {},
+                            onPressed: () => {
+                              controller.onSave(context)
+                            },
                             child: const Text('Cadastrar'),
                           ),
                         ],

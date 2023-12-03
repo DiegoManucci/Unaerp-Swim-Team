@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unaerp_swim_team/pages/create_workout/create_workout_view.dart';
 import 'package:unaerp_swim_team/pages/evaluation/evaluation_view.dart';
@@ -8,14 +9,66 @@ import 'package:unaerp_swim_team/types/workout.dart';
 import '../../utils/utils.dart';
 
 class WorkoutsController extends ChangeNotifier {
+  GlobalKey<FormState> dialogFormKey = GlobalKey<FormState>();
+
+  WorkoutsController() {
+    setupWorkouts();
+  }
+
   final WorkoutsState state = WorkoutsState();
 
-  get workouts => state.workouts;
-
   get selectedAthlete => state.selectedAthlete;
+
   set selectedAthlete(value) {
     state.selectedAthlete = value;
     notifyListeners();
+  }
+
+  void setWorkouts(List<Workout> workouts) {
+    state.workouts = workouts;
+  }
+
+  void setupWorkouts() async {
+    List<Workout> workouts = await _getWorkouts();
+    setWorkouts(workouts);
+    notifyListeners();
+  }
+
+  Future<List<Workout>> _getWorkouts() {
+    try {
+      return FirebaseFirestore.instance
+          .collection('workouts')
+          .get()
+          .then((value) {
+        List<Workout> workouts = [];
+
+        value.docs.forEach((element) {
+          workouts.add(
+              Workout(
+                  element.id,
+                  element['description'],
+                  DateTime.fromMillisecondsSinceEpoch(
+                    (element['date'] as Timestamp).millisecondsSinceEpoch,
+                  )
+              )
+          );
+        });
+
+        return workouts;
+      });
+    } catch (e) {
+      print('Erro ao listar treinos: $e');
+      throw e;
+    }
+  }
+
+  Future<void> _deleteWorkout (String? workoutId) async {
+    try {
+      await FirebaseFirestore.instance.collection('workouts').doc(workoutId).delete();
+    } catch (e) {
+      print('Erro ao excluir treino: $e');
+      throw e;
+    }
   }
 
   void onOpenActions(
@@ -33,6 +86,7 @@ class WorkoutsController extends ChangeNotifier {
       ),
       TextButton(
         onPressed: () {
+          _deleteWorkout(workout.id);
           state.workouts.remove(workout);
           Utils.showCustomSnackBar(context, "Treino excluído com sucesso!");
           Navigator.of(context).pop();
@@ -45,13 +99,13 @@ class WorkoutsController extends ChangeNotifier {
   }
 
   void onAddUser(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CreateWorkoutView()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateWorkoutView()))
+        .then((value) {
+                          setupWorkouts();
+                          notifyListeners();
+                      }
+             );
   }
-
-  GlobalKey<FormState> dialogFormKey = GlobalKey<FormState>();
 
   void onEvaluateAthlete(BuildContext context, Workout workout) {
     Utils.showCustomDialog(
@@ -60,22 +114,21 @@ class WorkoutsController extends ChangeNotifier {
         Form(
           key: dialogFormKey,
           child: DropdownButtonFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Atleta',
-                  border: OutlineInputBorder(), // Add an outline border
-                ),
-            value: selectedAthlete,
-            validator: selectedAthleteValidator,
-            onChanged: (value) {
-              selectedAthlete = value;
-            },
-            items: state.atlhetes
-                .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.name),
-                    ))
-                .toList()
-          ),
+              decoration: const InputDecoration(
+                labelText: 'Atleta',
+                border: OutlineInputBorder(), // Add an outline border
+              ),
+              value: selectedAthlete,
+              validator: selectedAthleteValidator,
+              onChanged: (value) {
+                selectedAthlete = value;
+              },
+              items: state.atlhetes
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name),
+                      ))
+                  .toList()),
         ),
         [
           TextButton(
@@ -87,7 +140,11 @@ class WorkoutsController extends ChangeNotifier {
               if (!dialogFormKey.currentState!.validate()) {
                 return;
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EvaluationView(athlete: selectedAthlete, workout: workout)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EvaluationView(
+                          athlete: selectedAthlete, workout: workout)));
               notifyListeners();
             },
             child: const Text('Selecionar'),

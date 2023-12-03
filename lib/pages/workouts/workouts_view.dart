@@ -19,40 +19,34 @@ class WorkoutsView extends StatelessWidget {
         builder: (context, controller, child) => Stack(
           children: [
             ListView.builder(
-              itemCount: controller.workouts.length,
+              itemCount: controller.state.workouts.length,
               itemBuilder: (context, index) {
-                if (index < controller.workouts.length - 1) {
-                  final workout = controller.workouts[index];
-                  return Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Card(
-                        elevation: 0,
-                        color: Theme.of(context).colorScheme.surfaceVariant,
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Column(
-                          children: [
-                            ListTile(
-                              dense: true,
-                              leading: const Icon(Icons.pool_outlined),
-                              title: Text(workout.description),
-                              subtitle: Text(Utils.formatDate(workout.date)),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.more_vert_outlined),
-                                onPressed: () => controller.onOpenActions(
-                                    context, workout, controller),
-                              ),
+                final workout = controller.state.workouts[index];
+                return Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Card(
+                      elevation: 0,
+                      color: Theme.of(context).colorScheme.surfaceVariant,
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            dense: true,
+                            leading: const Icon(Icons.pool_outlined),
+                            title: Text(workout.description),
+                            subtitle: Text(Utils.formatDate(workout.date)),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.more_vert_outlined),
+                              onPressed: () => controller.onOpenActions(
+                                  context, workout, controller),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                } else {
-                  return const SizedBox(
-                    height: 86,
-                  );
-                }
+                    ),
+                  ],
+                );
               },
             ),
             Consumer<ApplicationController>(
