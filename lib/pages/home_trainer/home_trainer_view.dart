@@ -16,6 +16,7 @@ class HomeTrainerView extends StatelessWidget {
         builder: (context, controller, child) {
           return Scaffold(
               appBar: AppBar(
+                key: const Key('homeTrainerAppBar'),
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
                 titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white),
                 title: Text(

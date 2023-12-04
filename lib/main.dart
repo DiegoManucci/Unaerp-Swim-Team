@@ -6,7 +6,6 @@ import 'package:unaerp_swim_team/pages/login/login_view.dart';
 
 import 'firebase_options.dart';
 
-
 main() async  {
 
   WidgetsFlutterBinding.ensureInitialized();

@@ -19,6 +19,7 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.all(32),
             child: Column(children: [
               TextFormField(
+                key: const Key("emailTextFormField"),
                 controller: controller.state.emailController,
                 validator: controller.emailValidator,
                 decoration: const InputDecoration(
@@ -28,6 +29,7 @@ class LoginForm extends StatelessWidget {
                 height: 32,
               ),
               TextFormField(
+                key: const Key("passwordTextFormField"),
                 controller: controller.state.passwordController,
                 validator: controller.passwordValidator,
                 obscureText: controller.state.showPassword,
@@ -62,6 +64,7 @@ class LoginForm extends StatelessWidget {
               Consumer<ApplicationController>(
                   builder: (context, applicationController, child) {
                 return FilledButton(
+                  key: const Key("submitFilledButton"),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
