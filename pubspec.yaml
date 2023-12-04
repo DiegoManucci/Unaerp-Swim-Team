@@ -45,6 +45,10 @@ dependencies:
   uuid: ^4.1.0
 
 dev_dependencies:
+  mockito: ^5.4.3
+  fake_cloud_firestore: ^2.4.4
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 

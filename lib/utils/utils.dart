@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unaerp_swim_team/types/user_type.dart';
 
+import '../firebase_options.dart';
 import '../types/user.dart';
 
 class Utils {
@@ -375,5 +377,13 @@ class Utils {
       print('Erro ao listar usuários: $e');
       throw e;
     }
+  }
+
+  static void setupFirebase () async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.android,
+    );
   }
 }

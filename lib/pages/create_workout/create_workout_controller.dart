@@ -7,12 +7,18 @@ import 'create_workout_state.dart';
 
 class CreateWorkoutController extends ChangeNotifier {
   final CreateWorkoutState _state = CreateWorkoutState();
-  final CollectionReference _workoutCollection = FirebaseFirestore.instance.collection("workouts");
 
   get createWorkoutFormKey => _state.createWorkoutFormKey;
 
   get descriptionController => _state.descriptionController;
   get dateController => _state.dateController;
+
+  Future<void> showBirthDatePicker(BuildContext context) async {
+    final DateTime? selectedDate = await Utils.showCustomDatePicker(context, _state.date);
+    _state.date = selectedDate;
+    _state.dateController.text = Utils.formatDate(selectedDate);
+    notifyListeners();
+  }
 
   void onSave (BuildContext context) {
     if (!_state.createWorkoutFormKey.currentState!.validate()) {
@@ -20,12 +26,7 @@ class CreateWorkoutController extends ChangeNotifier {
     }
 
     try {
-      _workoutCollection
-          .doc(const Uuid().v4())
-          .set({
-              'description': _state.descriptionController.text,
-              'date': _state.date
-          });
+      saveWorkout(_state.descriptionController.text, _state.date, FirebaseFirestore.instance.collection("workouts"));
 
       Navigator.pop(context);
       Utils.showCustomSnackBar(context, "Treino cadastrado com sucesso!");
@@ -35,10 +36,16 @@ class CreateWorkoutController extends ChangeNotifier {
     }
   }
 
-  Future<void> showBirthDatePicker(BuildContext context) async {
-    final DateTime? selectedDate = await Utils.showCustomDatePicker(context, _state.date);
-    _state.date = selectedDate;
-    _state.dateController.text = Utils.formatDate(selectedDate);
-    notifyListeners();
+  void saveWorkout (final String workoutDescription, final DateTime? workoutDate, final CollectionReference collection) {
+    try {
+      collection
+          .doc(const Uuid().v4())
+          .set({
+                  'description': workoutDescription,
+                  'date': workoutDate
+               });
+    } catch (e) {
+      rethrow;
+    }
   }
 }
