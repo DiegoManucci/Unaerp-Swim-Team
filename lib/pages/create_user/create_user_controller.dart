@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unaerp_swim_team/application_controller.dart';
 import 'package:unaerp_swim_team/types/user_type.dart';
 
 import '../../types/phone_type.dart';
@@ -8,6 +10,40 @@ import 'create_user_state.dart';
 
 class CreateUserController extends ChangeNotifier {
   final CreateUserState state = CreateUserState();
+
+  bool editMode = false;
+  
+  Future<void> fetchUser(BuildContext context) async {
+
+    final ApplicationController appController = Provider.of<ApplicationController>(context, listen: false);
+
+    Utils.getUser(appController.user?.id ?? '').then((user) {
+      state.nameController.text = user!.name;
+      state.emailController.text = user!.email;
+      state.selectedUserType = UserType.values.indexOf(UserType.values.firstWhere((element) => element.name == user.type.name));
+      state.birthDateController.text = user?.birthDate ?? '';
+      state.sexController.text = user?.sex ?? '';
+      state.addressController.text = user?.address ?? '';
+      state.nacionalityController.text = user?.nacionality ?? '';
+      state.naturalnessController.text = user?.naturalness ?? '';
+      state.fatherNameController.text = user?.fatherName ?? '';
+      state.motherNameController.text = user?.motherName ?? '';
+      state.clubOfOriginController.text = user?.clubOfOrigin ?? '';
+      state.stylesAndEventsController.text = user?.stylesAndEvents ?? '';
+      state.workLocationController.text = user?.workLocation ?? '';
+      state.medicalInsuranceController.text = user?.medicalInsurance ?? '';
+      state.medicationAllergyController.text = user?.medicationAllergy ?? '';
+      state.selectedPhoneTypes = user?.phones?.map((e) => PhoneType.values.firstWhere((element) => element.name == 'celular')).toList() ?? [];
+      state.phoneControllers = user?.phones?.map((e) => TextEditingController(text: e)).toList() ?? [];
+      state.medicalCertificatePath = user?.medicalCertificatePath ?? '';
+      state.rgPath = user?.rgPath ?? '';
+      state.cpfPath = user?.cpfPath ?? '';
+      state.proofOfResidencePath = user?.proofOfResidencePath ?? '';
+      state.photoPath = user?.photoPath ?? '';
+      state.signedRegulationPath = user?.signedRegulationPath ?? '';
+      notifyListeners();
+    });
+  }
 
   void setSelectedUserType(int index) {
     state.selectedUserType = index;
@@ -408,12 +444,57 @@ class CreateUserController extends ChangeNotifier {
 
       Utils.showCustomSnackBar(context, 'Usuário criado com sucesso');
 
-      fetchUsers();
+      fetchUsers(context);
 
       Navigator.pop(context);
     } catch (e) {
       print('Erro ao criar usuário: $e');
       Utils.showCustomSnackBar(context, 'Erro ao criar usuário');
+    }
+  }
+
+  Future<void> updateUser(BuildContext context, Function fetchUsers) async {
+    if (!state.createUserFormKey.currentState!.validate()) {
+      return;
+    }
+
+    final ApplicationController appController = Provider.of<ApplicationController>(context, listen: false);
+
+    Map<String, dynamic> userData = {};
+
+    userData['name'] = state.nameController.text;
+    userData['email'] = state.emailController.text;
+    userData['userType'] = UserType.values[state.selectedUserType].name;
+
+    if(userData['type'] == UserType.atleta.name){
+      userData['birthDate'] = state.birthDateController.text;
+      userData['sex'] = state.sexController.text;
+      userData['address'] = state.addressController.text;
+      userData['nacionality'] = state.nacionalityController.text;
+      userData['naturalness'] = state.naturalnessController.text;
+      userData['fatherName'] = state.fatherNameController.text;
+      userData['motherName'] = state.motherNameController.text;
+      userData['clubOfOrigin'] = state.clubOfOriginController.text;
+      userData['stylesAndEvents'] = state.stylesAndEventsController.text;
+      userData['workLocation'] = state.workLocationController.text;
+      userData['medicalInsurance'] = state.medicalInsuranceController.text;
+      userData['medicationAllergy'] = state.medicationAllergyController.text;
+      userData['phones'] = state.phoneControllers.map((e) => e.text).toList();
+      userData['medicalCertificatePath'] = state.medicalCertificatePath;
+      userData['rgPath'] = state.rgPath;
+      userData['cpfPath'] = state.cpfPath;
+      userData['proofOfResidencePath'] = state.proofOfResidencePath;
+      userData['photoPath'] = state.photoPath;
+      userData['signedRegulationPath'] = state.signedRegulationPath;
+    }
+
+    try {
+      Utils.updateUser(appController.user?.id ?? '', userData);
+
+      Utils.showCustomSnackBar(context, 'Usuário atualizado com sucesso');
+    } catch (e) {
+      print('Erro ao atualizar usuário: $e');
+      Utils.showCustomSnackBar(context, 'Erro ao atualizar usuário');
     }
   }
 }

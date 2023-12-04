@@ -1,25 +1,28 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unaerp_swim_team/pages/create_user/create_user_view.dart';
 import 'package:unaerp_swim_team/pages/users/users_state.dart';
 import 'package:unaerp_swim_team/pages/users/widgets/users_list_item_actions.dart';
 import 'package:unaerp_swim_team/types/user.dart';
 
+import '../../application_controller.dart';
 import '../../utils/utils.dart';
 
 class UsersController extends ChangeNotifier {
   final UsersState state = UsersState();
 
-  UsersController() {
-    setupUsers();
-  }
-
   void setUsers(List<User> users) {
     state.users = users;
   }
 
-  void setupUsers() async {
+  void setupUsers(BuildContext context) async {
     List<User> users = await Utils.listUsers();
+
+    final ApplicationController appController = Provider.of<ApplicationController>(context, listen: false);
+
+    users.removeWhere((element) => element.id == appController.user?.id);
+
     setUsers(users);
     notifyListeners();
   }
@@ -49,6 +52,6 @@ class UsersController extends ChangeNotifier {
   }
 
   void onAddUser(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: null, fetchUsers: setupUsers)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: null, fetchUsers: setupUsers, editMode: false,)));
   }
 }

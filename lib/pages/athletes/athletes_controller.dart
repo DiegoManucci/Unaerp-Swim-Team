@@ -38,6 +38,6 @@ class AthletesController extends ChangeNotifier {
   }
 
   void onAddUser(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: 2, fetchUsers: () {})));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUserView(defaultUserType: 2, fetchUsers: () {}, editMode: false,)));
   }
 }

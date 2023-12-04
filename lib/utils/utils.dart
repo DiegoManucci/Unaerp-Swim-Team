@@ -130,14 +130,38 @@ class Utils {
   static Future<User?> getUser(String uid) async {
     try {
       DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
       if (userDoc.exists) {
-        return User(
-          userDoc.id,
-          userDoc['name'],
-          userDoc['email'],
-          '',
-          UserType.values.firstWhere((e) => e.toString() == 'UserType.${userDoc['userType']}'),
-        );
+
+        Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+
+         return User(
+             userDoc.id,
+             data['name'],
+             data['email'],
+            '',
+            UserType.values.firstWhere((e) => e.toString() == 'UserType.${data['userType']}'),
+            data.containsKey('birthDate') ? data['birthDate'] : '',
+            data.containsKey('sex') ? data['sex'] : '',
+            data.containsKey('address') ? data['address'] : '',
+            data.containsKey('motherName') ? data['motherName'] : '',
+            data.containsKey('fatherName') ? data['fatherName'] : '',
+            data.containsKey('naturalness') ? data['naturalness'] : '',
+            data.containsKey('nacionality') ? data['nacionality'] : '',
+            data.containsKey('clubOfOrigin') ? data['clubOfOrigin'] : '',
+            data.containsKey('workLocation') ? data['workLocation'] : '',
+            data.containsKey('medicalInsurance') ? data['medicalInsurance'] : '',
+            data.containsKey('medicationAllergy') ? data['medicationAllergy'] : '',
+            data.containsKey('stylesAndEvents') ? data['stylesAndEvents'] : '',
+            data.containsKey('phones') ? (data['phones'] as List<dynamic>).cast<String?>() : [],
+            data.containsKey('medicalCertificatePath') ? data['medicalCertificatePath'] : '',
+            data.containsKey('rgPath') ? data['rgPath'] : '',
+            data.containsKey('cpfPath') ? data['cpfPath'] : '',
+            data.containsKey('proofOfResidencePath') ? data['proofOfResidencePath'] : '',
+            data.containsKey('photoPath') ? data['photoPath'] : '',
+            data.containsKey('signedRegulationPath') ? data['signedRegulationPath'] : ''
+         );
+
       } else {
         return null;
       }
@@ -296,6 +320,16 @@ class Utils {
     }
   }
 
+  static Future<void> updateUser(String userId, Map<String, dynamic> userData) async {
+    try {
+      debugPrint(userId);
+      await FirebaseFirestore.instance.collection('users').doc(userId).update(userData);
+    } catch (e) {
+      print('Erro ao atualizar atleta: $e');
+      throw e;
+    }
+  }
+
   static Future<List<User>> listUsers(){
     try {
       return FirebaseFirestore.instance.collection('users').get().then((value) {
@@ -303,12 +337,34 @@ class Utils {
         List<User> users = [];
 
         value.docs.forEach((element) {
+
+          Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+
           users.add(User(
             element.id,
             element['name'],
             element['email'],
             '',
             UserType.values.firstWhere((e) => e.toString() == 'UserType.${element['userType']}'),
+            data.containsKey('birthDate') ? element['birthDate'] : '',
+            data.containsKey('sex') ? element['sex'] : '',
+            data.containsKey('address') ? element['address'] : '',
+            data.containsKey('motherName') ? element['motherName'] : '',
+            data.containsKey('fatherName') ? element['fatherName'] : '',
+            data.containsKey('naturalness') ? element['naturalness'] : '',
+            data.containsKey('nacionality') ? element['nacionality'] : '',
+            data.containsKey('clubOfOrigin') ? element['clubOfOrigin'] : '',
+            data.containsKey('workLocation') ? element['workLocation'] : '',
+            data.containsKey('medicalInsurance') ? element['medicalInsurance'] : '',
+            data.containsKey('medicationAllergy') ? element['medicationAllergy'] : '',
+            data.containsKey('stylesAndEvents') ? element['stylesAndEvents'] : '',
+            data.containsKey('phones') ? (element['phones'] as List<dynamic>).cast<String?>() : [],
+            data.containsKey('medicalCertificatePath') ? element['medicalCertificatePath'] : '',
+            data.containsKey('rgPath') ? element['rgPath'] : '',
+            data.containsKey('cpfPath') ? element['cpfPath'] : '',
+            data.containsKey('proofOfResidencePath') ? element['proofOfResidencePath'] : '',
+            data.containsKey('photoPath') ? element['photoPath'] : '',
+            data.containsKey('signedRegulationPath') ? element['signedRegulationPath'] : ''
           ));
         });
 

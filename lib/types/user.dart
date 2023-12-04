@@ -6,7 +6,7 @@ class User {
   String email;
   String password;
   UserType type;
-  DateTime? birthDate;
+  String? birthDate;
   String? sex;
   String? address;
   String? motherName;
@@ -26,5 +26,30 @@ class User {
   String? photoPath;
   String? signedRegulationPath;
 
-  User(this.id, this.name, this.email, this.password, this.type);
+  User(
+      this.id,
+      this.name,
+      this.email,
+      this.password,
+      this.type,
+      this.birthDate,
+      this.sex,
+      this.address,
+      this.motherName,
+      this.fatherName,
+      this.naturalness,
+      this.nacionality,
+      this.clubOfOrigin,
+      this.workLocation,
+      this.medicalInsurance,
+      this.medicationAllergy,
+      this.stylesAndEvents,
+      this.phones,
+      this.medicalCertificatePath,
+      this.rgPath,
+      this.cpfPath,
+      this.proofOfResidencePath,
+      this.photoPath,
+      this.signedRegulationPath
+      );
 }
