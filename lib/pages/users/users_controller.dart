@@ -12,6 +12,16 @@ import '../../utils/utils.dart';
 class UsersController extends ChangeNotifier {
   final UsersState state = UsersState();
 
+  bool isAdministrator(BuildContext context) {
+    final ApplicationController appController = Provider.of<ApplicationController>(context, listen: false);
+
+    if (appController.user?.type.name == 'administrador') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void setUsers(List<User> users) {
     state.users = users;
   }
@@ -22,6 +32,10 @@ class UsersController extends ChangeNotifier {
     final ApplicationController appController = Provider.of<ApplicationController>(context, listen: false);
 
     users.removeWhere((element) => element.id == appController.user?.id);
+
+    if(!isAdministrator(context)) {
+      users.removeWhere((element) => element.type.name == 'administrador' || element.type.name == 'treinador');
+    }
 
     setUsers(users);
     notifyListeners();

@@ -53,7 +53,9 @@ class UsersView extends StatelessWidget {
                 }
               },
             ),
-            Positioned(
+            Visibility(
+              visible: controller.isAdministrator(context),
+              child: Positioned(
               bottom: 0,
               right: 0,
               child: Padding(
@@ -61,10 +63,10 @@ class UsersView extends StatelessWidget {
                 child: FloatingActionButton(
                   onPressed: () => controller.onAddUser(context),
                   backgroundColor:
-                      Theme.of(context).colorScheme.secondaryContainer,
+                  Theme.of(context).colorScheme.secondaryContainer,
                   child: const Icon(Icons.add),
                 ),
-              ),
+              ),)
             ),
           ],
         ),

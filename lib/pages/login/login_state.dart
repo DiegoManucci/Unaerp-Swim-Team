@@ -9,8 +9,8 @@ class LoginState {
   String? errorMessage;
 
   LoginState() {
-    _emailController.text = 'dbizzotto@sou.unaerp.edu.br';
-    _passwordController.text = '12345678';
+    _emailController.text = 'diego.brino@sou.unaerp.edu.br';
+    _passwordController.text = 'teste123';
   }
 
   TextEditingController get emailController => _emailController;

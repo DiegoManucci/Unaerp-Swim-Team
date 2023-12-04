@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unaerp_swim_team/pages/athletes/athletes_view.dart';
+import 'package:unaerp_swim_team/pages/users/users_view.dart';
 import 'package:unaerp_swim_team/pages/workouts/workouts_view.dart';
 
 import '../../types/app_page.dart';
@@ -10,7 +10,7 @@ class HomeTrainerState {
 
   final List<AppPage> _appPages = [
     AppPage(title: 'Treinos', widget: WorkoutsView()),
-    AppPage(title: 'Atletas', widget: AthletesView()),
+    AppPage(title: 'Atletas', widget: UsersView()),
     AppPage(title: 'Perfil', widget: CreateUserView(defaultUserType: null, fetchUsers: () {}, editMode: true)),
   ];
 
