@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import '../../types/lap.dart';
@@ -7,11 +5,7 @@ import '../../types/user.dart';
 import '../../types/workout.dart';
 
 class EvaluationState {
-  List<Workout> _workouts = [
-    Workout(1, "Treino 1", DateTime.now()),
-    Workout(2, "Treino 2", DateTime.now()),
-    Workout(3, "Treino 3", DateTime.now()),
-  ];
+  List<Workout> _workouts = [];
 
   List<User> _atlhetes = [
 

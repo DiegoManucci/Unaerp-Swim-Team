@@ -1,11 +1,11 @@
 class Workout {
-  int id;
+  String? id;
   String description;
   DateTime date;
 
   Workout(
     this.id,
     this.description,
-    this.date,
+    this.date
   );
 }
