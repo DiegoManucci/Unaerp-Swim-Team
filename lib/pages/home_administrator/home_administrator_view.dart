@@ -23,6 +23,15 @@ class HomeAdministratorView extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 centerTitle: true,
+                actions: <Widget>[
+                  IconButton(
+                    color: Colors.white,
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      controller.onLogout(context);
+                    },
+                  ),
+                ],
               ),
               body: Stack(children: [
                 IndexedStack(
