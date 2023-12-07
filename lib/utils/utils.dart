@@ -39,6 +39,18 @@ class Utils {
     return '$minutesFormatted:$secondsFormatted.$millisecondsFormatted';
   }
 
+  static String formatTimeWithoutMilliseconds(int timeInMilliseconds) {
+    NumberFormat doubleZerosFormatter = NumberFormat("00");
+
+    int minutes = (timeInMilliseconds ~/ Duration.millisecondsPerMinute);
+    int seconds = (timeInMilliseconds ~/ Duration.millisecondsPerSecond) - (minutes * 60);
+
+    String minutesFormatted = doubleZerosFormatter.format(minutes);
+    String secondsFormatted = doubleZerosFormatter.format(seconds);
+
+    return '$minutesFormatted:$secondsFormatted';
+  }
+
   static void showCustomAlertDialog(BuildContext context, String title, String content, List<Widget> actions) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

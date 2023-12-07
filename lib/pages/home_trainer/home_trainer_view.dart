@@ -43,26 +43,32 @@ class HomeTrainerView extends StatelessWidget {
               bottomNavigationBar: BottomNavigationBar(
                 unselectedIconTheme: const IconThemeData(color: Colors.white),
                 unselectedItemColor: Colors.white,
-                selectedIconTheme: IconThemeData(
-                    color: Theme.of(context).colorScheme.secondaryContainer),
-                selectedItemColor:
-                    Theme.of(context).colorScheme.secondaryContainer,
+                selectedIconTheme: IconThemeData(color: Theme.of(context).colorScheme.secondaryContainer),
+                selectedItemColor: Theme.of(context).colorScheme.secondaryContainer,
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
                 currentIndex: controller.state.selectedIndex,
                 onTap: (int index) {
                   controller.onItemTapped(index);
                 },
-                items: const <BottomNavigationBarItem>[
+                items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.pool_outlined),
+                    icon: const Icon(Icons.pool_outlined),
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
                     label: 'Treinos',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.people_alt_outlined),
+                    icon: const Icon(Icons.people_alt_outlined),
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
                     label: 'Atletas',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.person_outlined),
+                    icon: const Icon(Icons.graphic_eq_outlined),
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    label: 'Gráficos',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.person_outlined),
+                    backgroundColor: Theme.of(context).colorScheme.tertiary,
                     label: 'Perfil',
                   ),
                 ],

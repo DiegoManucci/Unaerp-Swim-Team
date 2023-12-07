@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unaerp_swim_team/pages/graphics/graphics_view.dart';
 import 'package:unaerp_swim_team/pages/users/users_view.dart';
 import 'package:unaerp_swim_team/pages/workouts/workouts_view.dart';
 
@@ -11,6 +12,7 @@ class HomeTrainerState {
   final List<AppPage> _appPages = [
     AppPage(title: 'Treinos', widget: WorkoutsView()),
     AppPage(title: 'Atletas', widget: UsersView()),
+    AppPage(title: 'Gráficos', widget: GraphicsView()),
     AppPage(title: 'Perfil', widget: CreateUserView(defaultUserType: null, fetchUsers: () {}, editMode: true)),
   ];
 
