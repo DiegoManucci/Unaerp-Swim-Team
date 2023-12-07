@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:unaerp_swim_team/utils/utils.dart';
 
 import 'graphics_controller.dart';
 
@@ -9,49 +8,19 @@ class GraphicsView extends StatelessWidget {
   GraphicsView({super.key});
 
   final GraphicsController controller = GraphicsController();
-  final List<String> existingBottomTitles = [];
-  final List<String> existingLeftTitles = [];
 
-  Widget bottomTitles(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 10);
-
-    String text = "";
+  List<Widget> getAxisNameWidget() {
+    List<Text> names = [];
 
     controller.state.atlhetesWithLaps.forEach((key, value) {
-      if (!existingBottomTitles.contains(key)) {
-        existingBottomTitles.add(key);
-        text = key;
-
-        return;
-      }
+      if (!names.contains(key)) names.add(Text(key));
     });
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(text, style: style),
-    );
+    return names;
   }
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    if (value == meta.max) {
-      return Container();
-    }
-
-    const style = TextStyle(
-      fontSize: 10,
-    );
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(
-        meta.formattedValue,
-        style: style,
-      ),
-    );
-  }
-
-  List<BarChartGroupData> getData(double barsWidth, double barsSpace) {
-    final List<BarChartGroupData> groupData = [];
+  List<BarChartRodData> getData() {
+    final List<BarChartRodData> roadData = [];
     double totalMilliseconds = 0;
 
     controller.state.atlhetesWithLaps.forEach((key, value) {
@@ -59,83 +28,45 @@ class GraphicsView extends StatelessWidget {
         totalMilliseconds += element;
       }
 
-      groupData.add(
-        BarChartGroupData(
-            x: 0,
-            barsSpace: barsSpace,
-            barRods: [
-              BarChartRodData(
-                  toY: 30,
-                  rodStackItems: [
-                    BarChartRodStackItem(0, 5, Colors.black)
-                  ],
-                  borderRadius: BorderRadius.zero,
-                  width: barsWidth
-              )
-            ]
-        )
+      roadData.add(
+          BarChartRodData(
+            fromY: 0,
+            toY: totalMilliseconds / 60000
+          )
       );
 
       totalMilliseconds = 0;
     });
 
-    return groupData;
+    return roadData;
   }
 
-
-    @override
+  @override
   Widget build(BuildContext context) {
-    final maxWidth = MediaQuery.of(context).size.width;
-
-    final barsSpace = 4.0 * maxWidth / 400;
-    final barsWidth = 8.0 * maxWidth / 400;
-
     return ChangeNotifierProvider(
         create: (context) => controller,
         child: Consumer<GraphicsController>(
             builder: (context, controller, child) => Center(
               child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.center,
-                  barTouchData: BarTouchData(enabled: false),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 28,
-                        getTitlesWidget: bottomTitles
-                      )
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 40,
-                        getTitlesWidget: leftTitles,
+                  BarChartData(
+                      minY: 0,
+                      maxY: 30,
+                      titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            axisNameWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: getAxisNameWidget()
+                            )
+                          )
                       ),
-                    ),
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  gridData: FlGridData(
-                    show: true,
-                    checkToShowHorizontalLine: (value) => value % 10 == 0,
-                    getDrawingHorizontalLine: (value) => const FlLine(
-                      color: Colors.blue,
-                      strokeWidth: 1,
-                    ),
-                    drawVerticalLine: false,
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  groupsSpace: barsSpace,
-                  barGroups: getData(barsWidth, barsSpace),
-                )
+                      barGroups: [
+                        BarChartGroupData(
+                            x: 0,
+                            barsSpace: 4.0 * 6.0,
+                            barRods: getData()
+                        )
+                      ]
+                  )
               ),
             )
         )
