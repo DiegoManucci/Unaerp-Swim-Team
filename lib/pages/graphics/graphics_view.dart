@@ -1,6 +1,6 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unaerp_swim_team/types/workout.dart';
 
 import 'graphics_controller.dart';
 
@@ -9,65 +9,39 @@ class GraphicsView extends StatelessWidget {
 
   final GraphicsController controller = GraphicsController();
 
-  List<Widget> getAxisNameWidget() {
-    List<Text> names = [];
-
-    controller.state.atlhetesWithLaps.forEach((key, value) {
-      if (!names.contains(key)) names.add(Text(key));
-    });
-
-    return names;
-  }
-
-  List<BarChartRodData> getData() {
-    final List<BarChartRodData> roadData = [];
-    double totalMilliseconds = 0;
-
-    controller.state.atlhetesWithLaps.forEach((key, value) {
-      for (var element in value) {
-        totalMilliseconds += element;
-      }
-
-      roadData.add(
-          BarChartRodData(
-            fromY: 0,
-            toY: totalMilliseconds / 60000
-          )
-      );
-
-      totalMilliseconds = 0;
-    });
-
-    return roadData;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => controller,
         child: Consumer<GraphicsController>(
-            builder: (context, controller, child) => Center(
-              child: BarChart(
-                  BarChartData(
-                      minY: 0,
-                      maxY: 30,
-                      titlesData: FlTitlesData(
-                          bottomTitles: AxisTitles(
-                            axisNameWidget: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: getAxisNameWidget()
-                            )
-                          )
-                      ),
-                      barGroups: [
-                        BarChartGroupData(
-                            x: 0,
-                            barsSpace: 4.0 * 6.0,
-                            barRods: getData()
+            builder: (context, controller, child) => Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 32.0, 0, 0),
+                  child: DropdownMenu<Workout>(
+                    width: MediaQuery.of(context).size.width - 50.0,
+                    hintText: 'Selecione um Treino',
+                    onSelected: (Workout? value) {
+                      controller.selectWorkout(value);
+                    },
+                    dropdownMenuEntries: controller.state.workouts.map<DropdownMenuEntry<Workout>>((Workout value) {
+                      return DropdownMenuEntry<Workout>(value: value, label: value.description);
+                    }).toList(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  child: SizedBox(
+                    height: 500,
+                    child:
+                      controller.state.atlhetesWithLaps.isNotEmpty ?
+                        controller.getGraphic() :
+                        const Center(
+                          child: Text("Nenhum Registro Encontrado!"),
                         )
-                      ]
-                  )
-              ),
+                  ),
+                )
+              ]
             )
         )
     );

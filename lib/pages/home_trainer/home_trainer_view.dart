@@ -64,7 +64,7 @@ class HomeTrainerView extends StatelessWidget {
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.graphic_eq_outlined),
                     backgroundColor: Theme.of(context).colorScheme.tertiary,
-                    label: 'Gráficos',
+                    label: 'Estatística',
                   ),
                   BottomNavigationBarItem(
                     icon: const Icon(Icons.person_outlined),
