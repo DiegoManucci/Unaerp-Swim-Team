@@ -11,6 +11,9 @@ class EvaluationController extends ChangeNotifier {
 
   int clockState = 0;
 
+  double time = 0;
+  double timeGeral = 0;
+
   void startTimer() {
 
     clockState = 1;
@@ -50,6 +53,7 @@ class EvaluationController extends ChangeNotifier {
       TextButton(
         onPressed: () {
           Navigator.of(context).pop();
+          clockState = 1;
         },
         child: Text("Não"),
       ),
@@ -64,6 +68,9 @@ class EvaluationController extends ChangeNotifier {
           evaluation["final_frequency"] = state.finalFrequency;
           evaluation["laps"] = state.laps.map((e) => e.lapTime).toList();
 
+          state.fullTimer?.cancel();
+          state.lapTimer?.cancel();
+
           await Utils.createEvaluation(evaluation);
 
           Navigator.of(context).pop();
@@ -76,9 +83,6 @@ class EvaluationController extends ChangeNotifier {
         child: Text("Sim"),
       ),
     ]);
-
-    // state.fullTimer?.cancel();
-    // state.lapTimer?.cancel();
     //
     notifyListeners();
   }
