@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../types/user.dart';
@@ -12,19 +13,16 @@ class EvaluationView extends StatelessWidget {
   late final User athlete;
   late final Workout workout;
 
-  EvaluationView({super.key, required this.athlete, required this.workout});
+  EvaluationView({super.key, required this.athlete, required this.workout}){
+    controller.state.selectedAthlete = athlete;
+    controller.state.workout = workout;
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     double appBarHeight = AppBar().preferredSize.height;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.state.openInitialFrequencyDialog == false) {
-        controller.showInitialFrequencyDialog(context);
-      }
-    });
 
     return ChangeNotifierProvider(
       create: (context) => controller,
@@ -48,6 +46,47 @@ class EvaluationView extends StatelessWidget {
               centerTitle: true,
             ),
             body: Stack(children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                width: screenWidth,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: screenWidth * 0.4,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          controller.state.initialFrequency = int.parse(value);
+                        },
+                        decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            errorText: controller.state.initialFrequencyErrorText,
+                            labelText: 'Freq. Inicial'),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: screenWidth * 0.4,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          controller.state.finalFrequency = int.parse(value);
+                        },
+                        decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            errorText: controller.state.finalFrequencyErrorText,
+                            labelText: 'Freq. Final'),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                ],),
+              ),
               SizedBox(
                 height: (screenHeight - appBarHeight) - 32,
                 child: Column(
@@ -56,7 +95,7 @@ class EvaluationView extends StatelessWidget {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.linear,
                       height: controller.state.laps.isNotEmpty
-                          ? ((screenHeight - appBarHeight) - 32) * 0.25
+                          ? ((screenHeight - appBarHeight) - 32) * 0.35
                           : ((screenHeight - appBarHeight) - 32) * 0.75,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +118,7 @@ class EvaluationView extends StatelessWidget {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.linear,
                       height: controller.state.laps.isNotEmpty
-                          ? (screenHeight - appBarHeight) * 0.5
+                          ? (screenHeight - appBarHeight - 24) * 0.4
                           : 0,
                       child: Column(
                         children: [
@@ -162,33 +201,30 @@ class EvaluationView extends StatelessWidget {
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut,
                       height: (screenHeight - appBarHeight) * 0.25,
+                      width: screenWidth,
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                        children: [
-                            FilledButton(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                              Container(
+                                width: screenWidth,
+                                child: FilledButton(
+                                    onPressed: controller.clockState == 1 ? controller.makeLap : null,
+                                    child: const Text("Volta")),
+                              ),
+                            Container(
+                              width: screenWidth,
+                              child: FilledButton(
                                 onPressed: () {
-                                  controller.startTimer();
+                                  controller.clockState == 0 ? controller.startTimer() : controller.stopTimer(context);
                                 },
-                                child: const Text("Iniciar")),
-                          FilledButton(
-                                onPressed: () {
-                                  controller.makeLap();
-                                },
-                                child: const Text("Volta")),
-                          FilledButton(
-                              onPressed: () {
-                                controller.stopTimer();
-                              },
-                              child: const Text("Parar")),
-                          FilledButton(
-                              onPressed: () {
-                                controller.resetTimer();
-                              },
-                              child: const Text("Reiniciar")),
-                        ],
-                      )))),
+                                child: Text(controller.clockState == 0 ? "Iniciar" : "Finalizar")),
+                            ),
+                          ],
+                      ),
+                        )))),
             ])),
       ),
     );

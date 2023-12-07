@@ -5,11 +5,10 @@ import '../../types/user.dart';
 import '../../types/workout.dart';
 
 class EvaluationState {
-  List<Workout> _workouts = [];
 
-  List<User> _atlhetes = [
+  Workout? workout;
 
-  ];
+  List<User> _atlhetes = [];
 
   bool openInitialFrequencyDialog = false;
 
@@ -29,11 +28,6 @@ class EvaluationState {
   List<Lap> laps = [];
 
   String clockState = "Parado";
-
-  List<Workout> get workouts => _workouts;
-  set workouts(List<Workout> value) {
-    _workouts = value;
-  }
 
   List<User> get atlhetes => _atlhetes;
   set atlhetes(List<User> value) {

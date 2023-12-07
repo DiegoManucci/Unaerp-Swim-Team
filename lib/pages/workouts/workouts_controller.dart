@@ -6,6 +6,7 @@ import 'package:unaerp_swim_team/pages/workouts/widgets/workouts_list_item_actio
 import 'package:unaerp_swim_team/pages/workouts/workouts_state.dart';
 import 'package:unaerp_swim_team/types/workout.dart';
 
+import '../../types/user.dart';
 import '../../utils/utils.dart';
 
 class WorkoutsController extends ChangeNotifier {
@@ -13,6 +14,7 @@ class WorkoutsController extends ChangeNotifier {
 
   WorkoutsController() {
     setupWorkouts();
+    setupAthletes();
   }
 
   final WorkoutsState state = WorkoutsState();
@@ -31,6 +33,15 @@ class WorkoutsController extends ChangeNotifier {
   void setupWorkouts() async {
     List<Workout> workouts = await _getWorkouts();
     setWorkouts(workouts);
+    notifyListeners();
+  }
+
+  void setupAthletes() async {
+    List<User> users = await Utils.listUsers();
+
+    users.removeWhere((element) => element.type.name == 'administrador' || element.type.name == 'treinador');
+
+    state.atlhetes = users;
     notifyListeners();
   }
 
@@ -101,10 +112,9 @@ class WorkoutsController extends ChangeNotifier {
   void onAddUser(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => CreateWorkoutView()))
         .then((value) {
-                          setupWorkouts();
-                          notifyListeners();
-                      }
-             );
+            setupWorkouts();
+            notifyListeners();
+        });
   }
 
   void onEvaluateAthlete(BuildContext context, Workout workout) {

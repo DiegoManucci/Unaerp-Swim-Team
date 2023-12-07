@@ -386,4 +386,14 @@ class Utils {
       options: DefaultFirebaseOptions.android,
     );
   }
+
+  static Future<void> createEvaluation(Map<String, dynamic> evaluationData) async {
+    try {
+      CollectionReference evaluations = FirebaseFirestore.instance.collection('evaluations');
+      await evaluations.add(evaluationData);
+    } catch (e) {
+      print('Erro ao criar avaliação: $e');
+      throw e;
+    }
+  }
 }
