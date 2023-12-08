@@ -63,6 +63,7 @@ class EvaluationController extends ChangeNotifier {
           Map<String, dynamic> evaluation = {};
 
           evaluation["athlete"] = state.selectedAthlete?.id;
+          evaluation["athleteName"] = state.selectedAthlete?.name;
           evaluation["workout"] = state.workout?.id;
           evaluation["initial_frequency"] = state.initialFrequency;
           evaluation["final_frequency"] = state.finalFrequency;

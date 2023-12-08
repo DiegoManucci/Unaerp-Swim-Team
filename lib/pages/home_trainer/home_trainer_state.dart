@@ -12,7 +12,7 @@ class HomeTrainerState {
   final List<AppPage> _appPages = [
     AppPage(title: 'Treinos', widget: WorkoutsView()),
     AppPage(title: 'Atletas', widget: UsersView()),
-    AppPage(title: 'Gráficos', widget: GraphicsView()),
+    AppPage(title: 'Média por Volta', widget: GraphicsView()),
     AppPage(title: 'Perfil', widget: CreateUserView(defaultUserType: null, fetchUsers: () {}, editMode: true)),
   ];
 
