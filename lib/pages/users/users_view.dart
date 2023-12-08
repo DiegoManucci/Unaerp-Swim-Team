@@ -1,6 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unaerp_swim_team/pages/users/users_controller.dart';
+
+import '../../utils/utils.dart';
 
 class UsersView extends StatelessWidget {
   final UsersController controller = UsersController();
@@ -33,14 +37,32 @@ class UsersView extends StatelessWidget {
                           children: [
                             ListTile(
                               dense: true,
-                              leading: const Icon(Icons.person_outline),
+                              leading: user.photoPath != ""
+                                  ? FutureBuilder<Uint8List?>(
+                                future: Utils.getUserPhotoUrl(user.photoPath!),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  } else if (snapshot.hasData && snapshot.data != null) {
+                                    return CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: Image.memory(snapshot.data!).image,
+                                    );
+                                  } else {
+                                    return const Icon(Icons.person_outline);
+                                  }
+                                },
+                              ) : const Icon(Icons.person_outline),
                               title: Text(user.name),
                               subtitle: Text(user.type.name),
                               trailing: IconButton(
                                 icon: const Icon(Icons.more_vert_outlined),
-                                onPressed: () { controller.onOpenActions(context, user, controller); },
+                                onPressed: () {
+                                  controller.onOpenActions(context, user, controller);
+                                },
                               ),
                             ),
+
                           ],
                         ),
                       ),

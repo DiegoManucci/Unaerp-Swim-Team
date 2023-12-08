@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -407,5 +408,11 @@ class Utils {
       print('Erro ao criar avaliação: $e');
       throw e;
     }
+  }
+
+  static Future<Uint8List?> getUserPhotoUrl(String photoPath) async {
+    final ref = FirebaseStorage.instance.ref().child(photoPath);
+    var url = await ref.getData();
+    return url;
   }
 }
